@@ -6,6 +6,7 @@
     <p>logged in as <%= current_user.name %></p>
 </div>
 
+<%= form_tag("#") do %>
 <h2>1. 目的地を決めてください</h2>
 
 <body>
@@ -269,7 +270,6 @@
 </html>
 
     <div>
-    <%= form_tag("#") do %>
         <h2>2. 目標時間を決めてください</h2>
         <input name="time" type="text" id="timeSection" />
         <script>$( "#timeSection" ).timeDropper();</script>
