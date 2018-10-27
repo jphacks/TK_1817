@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   # User controller
   get '/status', to: 'users#status'
+  get '/logout', to: 'users#logout'
 
   # Spotify API callback
   get '/auth/spotify/callback', to: 'users#spotify'
