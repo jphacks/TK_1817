@@ -31,6 +31,7 @@
 <%= form_tag('/play') do %>
     <input type="hidden" name="distance" value="0.0" id="distance">
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
     <%= stylesheet_link_tag 'home.css', media: "all", 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'style.js', 'data-turbolinks-track': 'reload' %>
 
@@ -115,35 +116,39 @@
         }
 
         function AutocompleteDirectionsHandler(map) {
-                this.map = map;
-                this.originPlaceId = null;
-                this.destinationPlaceId = null;
-                this.travelMode = 'WALKING';
-                
-                var originInput = document.getElementById('start');
-                var waypointInput = document.getElementById('waypoint');
-                var destinationInput = document.getElementById('end');
-                var buttonInput = document.getElementById('button');
+            this.map = map;
+            this.originPlaceId = null;
+            this.destinationPlaceId = null;
+            this.travelMode = 'WALKING';
+            
+            var originInput = document.getElementById('start');
+            var waypointInput = document.getElementById('waypoint');
+            var destinationInput = document.getElementById('end');
+            var buttonInput = document.getElementById('button');
 
-                this.directionsService = new google.maps.DirectionsService;
-                this.directionsDisplay = new google.maps.DirectionsRenderer;
-                this.directionsDisplay.setMap(map);
+            $(document).ready(function() {
+            $.cookie('end', document.getElementById('end'););
+            });
+            
+            this.directionsService = new google.maps.DirectionsService;
+            this.directionsDisplay = new google.maps.DirectionsRenderer;
+            this.directionsDisplay.setMap(map);
 
-                var originAutocomplete = new google.maps.places.Autocomplete(
-                    originInput, { placeIdOnly: true });
-                var originAutocomplete = new google.maps.places.Autocomplete(
-                    waypointInput, { placeIdOnly: true });
-                var destinationAutocomplete = new google.maps.places.Autocomplete(
-                    destinationInput, { placeIdOnly: true });
+            var originAutocomplete = new google.maps.places.Autocomplete(
+                originInput, { placeIdOnly: true });
+            var originAutocomplete = new google.maps.places.Autocomplete(
+                waypointInput, { placeIdOnly: true });
+            var destinationAutocomplete = new google.maps.places.Autocomplete(
+                destinationInput, { placeIdOnly: true });
 
-                this.setupPlaceChangedListener(originAutocomplete, 'ORIG');
-                this.setupPlaceChangedListener(originAutocomplete, 'WAYPOINT');
-                this.setupPlaceChangedListener(destinationAutocomplete, 'DEST');
+            this.setupPlaceChangedListener(originAutocomplete, 'ORIG');
+            this.setupPlaceChangedListener(originAutocomplete, 'WAYPOINT');
+            this.setupPlaceChangedListener(destinationAutocomplete, 'DEST');
 
-                //this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(originInput);
-                //this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(waypointInput);
-                //this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(destinationInput);
-                //this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(buttonInput);
+            //this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(originInput);
+            //this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(waypointInput);
+            //this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(destinationInput);
+            //this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(buttonInput);
         }
 
         // Sets a listener on a radio button to change the filter type on Places
