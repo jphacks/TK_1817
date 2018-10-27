@@ -1,7 +1,9 @@
 class StaticPagesController < ApplicationController
   require 'rspotify'
 
-  def home; end
+  def home
+    
+  end
 
   def help; end
 
