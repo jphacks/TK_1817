@@ -1,4 +1,9 @@
+<%= stylesheet_link_tag("") %>
 <div>
     <h1>logged in menu</h1>
     <p>logged in as <%= current_user.name %></p>
+    <h2>1. 目的地を決めてください</h2>
+    <h2>2. 目標時間を決めてください</h2>
+    <h2>3. プレイリストを決めてください</h2>
+    <%= link_to("GO!", "#", class: 'btn btn-default') %>
 </div>
