@@ -20,7 +20,12 @@ class UsersController < ApplicationController
   end
 
   def home
-    render 'static_pages/home' unless logged_in?
+    unless logged_in?
+      render 'static_pages/home'
+      return
+    end
+
+    @playlists = spotify_user(current_user).playlists
   end
 
   def logout
