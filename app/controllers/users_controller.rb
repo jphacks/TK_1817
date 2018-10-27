@@ -34,6 +34,9 @@ class UsersController < ApplicationController
   end
 
   def play
+    current_user.end = params['end_']
+    current_user.save!
+
     spotify_authenticate
     playlist_id = params['playlist_id']
     playlist_user = 'aaa'
@@ -77,7 +80,6 @@ class UsersController < ApplicationController
       },
       "position_ms": 0
     }
-
     
     player.play(
       spotify_user(current_user).devices.first.id, 

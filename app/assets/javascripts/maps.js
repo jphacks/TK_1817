@@ -190,11 +190,14 @@ directionsService.route({
         //summaryPanel.innerHTML += route.legs[0].start_address + ' to ';
         //summaryPanel.innerHTML += route.legs[route.legs.length - 1].end_address + '<br>';
         summaryPanel.innerHTML += '目的地まで: ' + String(parseFloat(distance / 1000, 2)) + ' km!<br><br>';
-        console.log("Start:" + route.legs[0].start_address)
-        console.log("End:" + route.legs[route.legs.length - 1].end_address)
+        console.log("Start:" + route.legs[0].start_address);
+        console.log("End:" + route.legs[route.legs.length - 1].end_address);
 
-        document.getElementById('distance').value = parseFloat(distance, 2)
-        console.log("distance set:" + parseFloat(distance, 2))
+        document.getElementById('end_').value = document.getElementById('end').value;
+        console.log("end_:", document.getElementById('end_').value);
+
+        document.getElementById('distance').value = parseFloat(distance, 2);
+        console.log("distance set:" + parseFloat(distance, 2));
     } else {
         window.alert('Directions request failed due to ' + status);
     }
