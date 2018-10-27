@@ -1,3 +1,11 @@
 #contents
-  div.jumbotron
-    = link_to 'Sign in with Spotify', '/auth/spotify', class: 'btn btn-primary btn-lg'
+  div.jumbotron.login_BG
+
+    h2.text-primary Music Application!
+    
+    h2.text-primary You can sign in with Spotify account.
+
+    div.login_btn
+      = link_to 'Sign in with Spotify', '/auth/spotify', class: 'btn btn-primary btn-lg' 'text-center'
+
+= stylesheet_link_tag 'login', media: 'all', 'data-turbolinks-track': 'reload'
