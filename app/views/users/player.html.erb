@@ -57,7 +57,7 @@
     function calculateAndDisplayRoute(directionsService, directionsDisplay) {
         directionsService.route({
             origin: pos,
-            destination: ### end_, ###
+            destination: '<%= current_user.end %>',
             travelMode: 'WALKING'
         }, function (response, status) {
             if (status === 'OK') {
