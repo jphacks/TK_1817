@@ -20,4 +20,6 @@ Rails.application.config.assets.precompile += %w(
   jquery.ripples-min.js
   maps.js
   dropdown_fix.js
+  timedropper.js
+  timedropper.css
   )
