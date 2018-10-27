@@ -43,7 +43,7 @@ class UsersController < ApplicationController
     
     bpms = tracks.map.with_index do |track, index|
       {
-        id: index,
+        order: index,
         tempo: track.audio_features.tempo
       }
     end
@@ -69,5 +69,21 @@ class UsersController < ApplicationController
       b[:diff]
     end
 
+    player = RSpotify::Player.new(spotify_user(current_user))
+    params = {
+      "context_uri": pl.uri,
+      "offset": {
+        "position": selected_music[:order]
+      },
+      "position_ms": 0
+    }
+
+    
+    player.play(
+      spotify_user(current_user).devices.first.id, 
+      params
+    )
+
+    redirect_to '/player'
   end
 end
