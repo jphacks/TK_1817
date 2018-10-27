@@ -11,8 +11,9 @@
 <%= stylesheet_link_tag("") %>
 <div>
     <p>logged in as <%= current_user.name %></p>
-</div>
+
 <h2>1. 目的地を決めてください</h2>
+
 <body>
     <form>
         <input type="text" placeholder="現在地" id="start">
@@ -255,7 +256,6 @@
     </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGCQhxjnRfnXNtqTYOkhebzXSPtc5KQnY&libraries=places&callback=initMap">
     </script>
-
 </body>
  
 <h2>2. 目標時間を決めてください</h2>
