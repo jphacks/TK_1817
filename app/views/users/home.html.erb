@@ -79,6 +79,9 @@
 <div id="directions-panel"></div>
 
 <link rel="app/assets/stylesheets" href="home.css">
+  
+<link rel="app/assets/stylesheets" href="timedropper.css">
+<script type="app/assets/javascripts" src=“timedropper.js"></script>
 <%= stylesheet_link_tag 'home.css', media: "all", 'data-turbolinks-track': 'reload' %>
 <%= javascript_include_tag 'style.js', 'data-turbolinks-track': 'reload' %>
 <script>
@@ -277,6 +280,8 @@
 </script>
 <div>
     <h2>2. 目標時間を決めてください</h2>
+    <input type="text" id="timeSection" />
+    <script>$( "#timeSection" ).timeDropper();</script>    
     <h2>3. プレイリストを決めてください</h2>
 </div>
 <div class="btn_container">
