@@ -2,32 +2,34 @@
     <p>logged in as <%= current_user.name %></p>
 </div>
 
-<%= form_tag("#") do %>
-    <h2>1. 目的地を決めてください</h2>
 
-    <form>
-        <input type="text" placeholder="現在地" id="start">
-        <input type="text" placeholder="経由地" id="waypoint">
-        <input type="text" placeholder="目的地" id="end">
-        <input type="button" value="検索" id="button">
-    </form>
-    <input type="hidden" value="0.0" id="distance">
-    <div id="style-selector-control" class="map-control">
-        <input type="radio" name="show-hide" id="hide-poi" class="selector-control">
-        <label for="hide-poi">Hide</label>
-        <input type="radio" name="show-hide" id="show-poi" class="selector-control" checked="checked">
-        <label for="show-poi">Show</label>
-    </div>
-    <!--
-        <div id="right-panel"></div>
-    -->
-    <div id="map"></div>
-    <div id="infowindow-content">
-        <img src="" width="16" height="16" id="place-icon">
-        <span id="place-name" class="title"></span><br>
-        <span id="place-address"></span>
-    </div>
-    <div id="directions-panel"></div>
+<h2>1. 目的地を決めてください</h2>
+
+<form>
+    <input type="text" placeholder="現在地" id="start">
+    <input type="text" placeholder="経由地" id="waypoint">
+    <input type="text" placeholder="目的地" id="end">
+    <input type="button" value="検索" id="button">
+</form>
+<div id="style-selector-control" class="map-control">
+    <input type="radio" name="show-hide" id="hide-poi" class="selector-control">
+    <label for="hide-poi">Hide</label>
+    <input type="radio" name="show-hide" id="show-poi" class="selector-control" checked="checked">
+    <label for="show-poi">Show</label>
+</div>
+<!--
+    <div id="right-panel"></div>
+-->
+<div id="map"></div>
+<div id="infowindow-content">
+    <img src="" width="16" height="16" id="place-icon">
+    <span id="place-name" class="title"></span><br>
+    <span id="place-address"></span>
+</div>
+<div id="directions-panel"></div>
+
+<%= form_tag('/play') do %>
+    <input type="hidden" name="distance" value="0.0" id="distance">
 
     <%= stylesheet_link_tag 'home.css', media: "all", 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'style.js', 'data-turbolinks-track': 'reload' %>
