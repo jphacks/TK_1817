@@ -19,8 +19,7 @@ class UsersController < ApplicationController
     redirect_to root_path
   end
 
-  def jobtest
-    JobTestJob.set(wait: 10.seconds).perform_later
-    redirect_to root_path
+  def home
+    render 'static_pages/home' unless logged_in?
   end
 end

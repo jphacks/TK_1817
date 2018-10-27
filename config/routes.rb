@@ -1,12 +1,11 @@
 Rails.application.routes.draw do
   # トップページ
-  root 'static_pages#home'
+  root 'users#home'
 
   get '/search', to: 'static_pages#search'
 
   # User controller
   get '/status', to: 'users#status'
-  get '/jobtest', to: 'users#jobtest'
 
   # Spotify API callback
   get '/auth/spotify/callback', to: 'users#spotify'
