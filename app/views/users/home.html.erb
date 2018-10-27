@@ -14,9 +14,6 @@
     <p>logged in as <%= current_user.name %></p>
 </div> 
     <h2>1. 目的地を決めてください</h2>
-    <h2>2. 目標時間を決めてください</h2>
-    <h2>3. プレイリストを決めてください</h2>
-    <%= link_to("GO!", "#", class: 'btn btn-default') %>
 </div>
 
 <body>
@@ -258,7 +255,11 @@
     </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGCQhxjnRfnXNtqTYOkhebzXSPtc5KQnY&libraries=places&callback=initMap">
     </script>
-
+    <div>
+        <h2>2. 目標時間を決めてください</h2>
+        <h2>3. プレイリストを決めてください</h2>
+        <%= link_to("GO!", "#", class: 'btn btn-default') %>
+    </div>
 </body>
 
 </html>
