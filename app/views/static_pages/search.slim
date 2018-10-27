@@ -1,0 +1,13 @@
+p Search result for #{@playlist_user}'s #{@playlist_id}
+
+table
+    tr
+        th 曲名
+        th アーティスト
+        th BPM
+
+    - @tracks.each do |t|
+        tr
+            td #{t.name}
+            td #{t.artists.first.name}
+            td #{t.audio_features.tempo}
