@@ -81,8 +81,16 @@ class UsersController < ApplicationController
       "position_ms": 0
     }
     
+    # No player failsafe
+    device = spotify_user(current_user).devices.first
+    if device.nil?
+      flash[:warning] = "Spotify プレイヤーが見つかりませんでした。アプリを起動してください。"
+      redirect_to root_path
+      return
+    end
+
     player.play(
-      spotify_user(current_user).devices.first.id, 
+      device.id, 
       params
     )
 
