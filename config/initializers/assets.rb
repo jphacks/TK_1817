@@ -18,4 +18,6 @@ Rails.application.config.assets.precompile += %w(
   player.css
   jquery.ripples.js
   jquery.ripples-min.js
+  maps.js
+  dropdown_fix.js
   )
