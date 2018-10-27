@@ -1,0 +1,9 @@
+nav.navbar.navbar-light.bg-light
+  = link_to 'Tekut', root_path, class: 'navbar-brand'
+
+  .navright
+    - if logged_in?
+      span.mr-3 #{current_user.name}としてログイン
+      = link_to 'ログアウト', '/logout'
+    - else
+      = link_to 'ログイン', '/auth/spotify'
