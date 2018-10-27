@@ -44,3 +44,10 @@
     height: 400px;
     background-color: grey;
 }
+
+.tray {
+    background-color: lighten($primary, 30);
+    border-radius: 20px;
+    padding: 20px;
+    margin: 20px;
+}
