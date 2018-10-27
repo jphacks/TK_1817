@@ -4,6 +4,6 @@ nav.navbar.navbar-light.bg-light
   .navright
     - if logged_in?
       span.mr-3 #{current_user.name}としてログイン
-      = link_to 'ログアウト', '/logout'
+      = link_to 'ログアウト', '/logout', class: 'btn btn-primary'
     - else
-      = link_to 'ログイン', '/auth/spotify'
+      = link_to 'ログイン', '/auth/spotify', class: 'btn btn-primary'
