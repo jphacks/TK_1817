@@ -1,19 +1,11 @@
-a.square_btn{
-    display: inline-block;
-    padding: 0.5em 1em;
-    text-decoration: none;
-    background: #668ad8;/*ボタン色*/
-    color: #FFF;
-    border-bottom: solid 4px #627295;
-    border-radius: 3px;
-}
-a.square_btn:active {/*ボタンを押したとき*/
-    -ms-transform: translateY(4px);
-    -webkit-transform: translateY(4px);
-    transform: translateY(4px);/*下に動く*/
-    border-bottom: none;/*線を消す*/
+.login_BG{
+  background:url('login_BG.jpg') center no-repeat; 
+  background-size: cover;
+  height: 400px;
 }
 
-.container{
-  text-align:center;
+.login_btn{
+  text-align: center;
+  padding-top: 120px;
 }
+
