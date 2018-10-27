@@ -88,6 +88,8 @@ function AutocompleteDirectionsHandler(map) {
     var destinationInput = document.getElementById('end');
     var buttonInput = document.getElementById('button');
 
+    document.getElementById('end_').value = destinationInput = document.getElementById('end');
+
     this.directionsService = new google.maps.DirectionsService;
     this.directionsDisplay = new google.maps.DirectionsRenderer;
     this.directionsDisplay.setMap(map);
