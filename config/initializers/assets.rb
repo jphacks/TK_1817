@@ -15,4 +15,7 @@ Rails.application.config.assets.precompile += %w(
   style.js
   home.css
   login.css
+  player.css
+  jquery.ripples.js
+  jquery.ripples-min.js
   )
