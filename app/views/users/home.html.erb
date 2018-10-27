@@ -1,10 +1,6 @@
-<div>
-    <h1>logged in menu</h1>
-    <p>logged in as <%= current_user.name %></p>
-</div>
-
 <%= form_tag('/play') do %>
 
+    <div class="tray">
     <h2 class="homemenu">1. 目的地を決めてください</h2>
 
     <input type="text" placeholder="現在地" id="start">
@@ -30,8 +26,9 @@
     <div id="directions-panel"></div>
 
     <input type="hidden" name="distance" value="0.0" id="distance">
+    </div>
 
-    <div>
+    <div class="tray">
         <h2 class="homemenu">2. 目標時刻を決めてください</h2>
         <% time = Time.now %>
         <% str = time.strftime("%H:%M")%>
@@ -44,11 +41,13 @@
                 <script>$( "#timeSection" ).timeDropper();</script>
             </li>
         </ul>
+    </div>
 
+    <div class="tray">
         <h2 class="homemenu">3. プレイリストを決めてください</h2>
         <input type="hidden" id="playlist_id_form" name="playlist_id">
         <div class="dropdown">
-            <button type="button" class="btn btn-primary dropdown-toggle" id="playlist_toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">項目を選択してください</button>
+            <button type="button" class="btn btn-primary dropdown-toggle" id="playlist_toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">選択してください...</button>
             <ul class="dropdown-menu">
                 <% @playlists.each do |pl| %>
                     <li><button class="dropdown-item" value="<%= pl.id %>"><%= pl.name %></button></li>
