@@ -245,12 +245,16 @@
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGCQhxjnRfnXNtqTYOkhebzXSPtc5KQnY&libraries=places&callback=initMap">
     </script>
 
+    <script type="app/assets/javascripts" src=“timedropper.js></script>
+    <script type="app/assets/stylesheets" src=“timedropper.css></script>
 </body>
 
 </html>
 <%= stylesheet_link_tag("") %>
 <div>
     <h2>2. 目標時間を決めてください</h2>
+    <input type="text" id="timeSection" />
+    <script>$( "#timeSection" ).timeDropper();</script>    
     <h2>3. プレイリストを決めてください</h2>
 </div>
 <div class="btn_container">
