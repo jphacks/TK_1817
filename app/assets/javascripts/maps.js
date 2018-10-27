@@ -1,4 +1,5 @@
 var map, infoWindow, pos;
+var post_makers = [];
 var style = read_style();
 var styles = {
     default: style,
@@ -18,17 +19,17 @@ var styles = {
 function initMap() {
     console.log('Debug');
 
-    var bounds = new google.maps.LatLngBounds;
-    var geocoder = new google.maps.Geocoder;
-    var markerArray = [];
     var directionsService = new google.maps.DirectionsService();
     var directionsDisplay = new google.maps.DirectionsRenderer();
-    var service = new google.maps.DistanceMatrixService;
-
+    
     var map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: 35.5709605, lng: 139.63446 },
         zoom: 20,
         styles: styles['default'],
+    });
+
+    map.addListener('click', function (e) {
+        getClickLatLng(e.latLng, map, directionsService, directionsDisplay);
     });
 
     directionsDisplay.setMap(map);
@@ -39,30 +40,33 @@ function initMap() {
         navigator.geolocation.getCurrentPosition(function (position) {
             pos = {
                 lat: position.coords.latitude,
-                lng: position.coords.longitude
+                lng: position.coords.longitude,
             };
 
-        console.log('lat: ', position.coords.latitude);
-        console.log('lng: ', position.coords.longitude);
-
-        infoWindow.setPosition(pos);
-        infoWindow.setContent('Location found.');
-        infoWindow.open(map);
-        map.setCenter(pos);
-
+            console.log('lat: ', position.coords.latitude);
+            console.log('lng: ', position.coords.longitude);
+            
+            document.getElementById('start_pos').value = [
+                position.coords.latitude,
+                position.coords.longitude,
+            ]
+            
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('Location found.');
+            infoWindow.open(map);
+            map.setCenter(pos);
     }, function () {
         handleLocationError(true, infoWindow, map.getCenter());
     });
-} else {
-    // Browser doesn't support Geolocation
-    handleLocationError(false, infoWindow, map.getCenter());
+    } else {
+        handleLocationError(false, infoWindow, map.getCenter());
 }
 
 new AutocompleteDirectionsHandler(map, pos);
     
 var button = document.getElementById("button");
-button.addEventListener('click', function () {
-    calculateAndDisplayRoute(directionsService, directionsDisplay);
+    button.addEventListener('click', function () {
+        calculateAndDisplayRoute(directionsService, directionsDisplay);
 });
 
 var styleControl = document.getElementById('style-selector-control');
@@ -109,105 +113,131 @@ function AutocompleteDirectionsHandler(map) {
     //this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(buttonInput);
 }
 
-// Sets a listener on a radio button to change the filter type on Places
-// Autocomplete.
 AutocompleteDirectionsHandler.prototype.setupPlaceChangedListener = function (autocomplete, mode) {
-var me = this;
-autocomplete.bindTo('bounds', this.map);
-autocomplete.addListener('place_changed', function () {
-    var place = autocomplete.getPlace();
-    if (!place.place_id) {
-        window.alert("Please select an option from the dropdown list.");
-        return;
-    }
-    if (mode === 'ORIG') {
-        me.originPlaceId = place.place_id;
-    } else {
-        me.destinationPlaceId = place.place_id;
-    }
-    me.route();
-});
+    var me = this;
+    autocomplete.bindTo('bounds', this.map);
+    autocomplete.addListener('place_changed', function () {
+        var place = autocomplete.getPlace();
+        if (!place.place_id) {
+            window.alert("Please select an option from the dropdown list.");
+            return;
+        }
+        if (mode === 'ORIG') {
+            me.originPlaceId = place.place_id;
+        } else {
+            me.destinationPlaceId = place.place_id;
+            document.getElementById('end_').value = document.getElementById('end').value;
+            console.log("end_:", document.getElementById('end_').value);
+        }
+        me.route();
+    });
 };
 
 AutocompleteDirectionsHandler.prototype.route = function () {
-if (!this.originPlaceId || !this.destinationPlaceId) {
-    return;
-}
-var me = this;
-
-this.directionsService.route({
-    origin: { 'placeId': this.originPlaceId },
-    destination: { 'placeId': this.destinationPlaceId },
-    travelMode: this.travelMode
-}, function (response, status) {
-    if (status === 'OK') {
-        me.directionsDisplay.setDirections(response);
-    } else {
-        window.alert('Directions request failed due to ' + status);
+    if (!this.originPlaceId || !this.destinationPlaceId) {
+        return;
     }
-});
+    var me = this;
+
+    this.directionsService.route({
+        origin: { 'placeId': this.originPlaceId },
+        destination: { 'placeId': this.destinationPlaceId },
+        travelMode: this.travelMode
+    }, function (response, status) {
+        if (status === 'OK') {
+            me.directionsDisplay.setDirections(response);
+        } else {
+            window.alert('Directions request failed due to ' + status);
+        }
+    });
 };
 
 function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-var waypts = [];
+    var start;
+    var end;
+    if (!document.getElementById('start').value) { 
+        start = document.getElementById('start_pos').value;
+        console.log('Start pos!');
+    } else {
+        start = document.getElementById('start').value;
+        console.log('Start!');
+    }
 
-if (document.getElementById('waypoint').value) {
-    waypts.push({
-        location: document.getElementById('waypoint').value,
-        stopover: true,
+    if (!document.getElementById('end').value) {
+        end = document.getElementById('end_pos').value;
+        console.log('End pos!');
+    } else {
+        end = document.getElementById('end').value;
+        console.log('End!');
+    }
+
+    console.log('Start:', start);
+    console.log('End:', end);
+
+    directionsService.route({
+        origin: start,
+        destination: end,
+        travelMode: 'WALKING'
+    }, function (response, status) {
+        if (status === 'OK') {
+            directionsDisplay.setDirections(response);
+
+            var distance = 0
+            var route = response.routes[0];
+            var summaryPanel = document.getElementById('directions-panel');
+            summaryPanel.innerHTML = '';
+
+            distance = route.legs[0].distance.value;
+
+            //summaryPanel.innerHTML += '<b>Route</b><br>';
+            //summaryPanel.innerHTML += route.legs[0].start_address + ' to ';
+            //summaryPanel.innerHTML += route.legs[route.legs.length - 1].end_address + '<br>';
+            summaryPanel.innerHTML += '目的地まで: ' + String(parseFloat(distance / 1000, 2)) + ' km!<br><br>';
+            console.log("Start:" + route.legs[0].start_address);
+            console.log("End:" + route.legs[route.legs.length - 1].end_address);
+
+            document.getElementById('distance').value = parseFloat(distance, 2);
+            console.log("distance set:" + parseFloat(distance, 2));
+        } else {
+            window.alert('Directions request failed due to ' + status);
+        }
     });
 }
 
-directionsService.route({
-    origin: document.getElementById('start').value,
-    destination: document.getElementById('end').value,
-    waypoints: waypts,
-    optimizeWaypoints: true,
-    travelMode: 'WALKING'
-}, function (response, status) {
-    if (status === 'OK') {
-        directionsDisplay.setDirections(response);
-
-        var distance = 0
-        var route = response.routes[0];
-        var summaryPanel = document.getElementById('directions-panel');
-        summaryPanel.innerHTML = '';
-
-        if (waypts.length != 0) {
-            for (var i = 0; i < route.legs.length; i++) {
-                var routeSegment = i + 1;
-                distance += route.legs[i].distance.value;
-                //summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment + '</b><br>';
-                //summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
-                //summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
-                //summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
-            }
-        } else {
-            distance = route.legs[0].distance.value;
-        }
-
-        //summaryPanel.innerHTML += '<b>Route</b><br>';
-        //summaryPanel.innerHTML += route.legs[0].start_address + ' to ';
-        //summaryPanel.innerHTML += route.legs[route.legs.length - 1].end_address + '<br>';
-        summaryPanel.innerHTML += '目的地まで: ' + String(parseFloat(distance / 1000, 2)) + ' km!<br><br>';
-        console.log("Start:" + route.legs[0].start_address);
-        console.log("End:" + route.legs[route.legs.length - 1].end_address);
-
-        document.getElementById('end_').value = document.getElementById('end').value;
-        console.log("end_:", document.getElementById('end_').value);
-
-        document.getElementById('distance').value = parseFloat(distance, 2);
-        console.log("distance set:" + parseFloat(distance, 2));
-    } else {
-        window.alert('Directions request failed due to ' + status);
-    }
-});
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+    infoWindow.setPosition(pos);
+    infoWindow.setContent(browserHasGeolocation ?
+        'Error: The Geolocation service failed.' :
+        'Error: Your browser doesn\'t support geolocation.');
+    infoWindow.open(map);
 }
 
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-infoWindow.setPosition(pos);
-infoWindow.setContent(browserHasGeolocation ?
-    'Error: The Geolocation service failed.' :
-    'Error: Your browser doesn\'t support geolocation.');
-infoWindow.open(map);
+function getClickLatLng(lat_lng, map, directionsService, directionsDisplay) {
+    document.getElementById('lat').textContent = lat_lng.lat();
+    document.getElementById('lng').textContent = lat_lng.lng();
+    document.getElementById('end_pos').value = [
+        lat_lng.lat(),
+        lat_lng.lng()
+    ];
+    document.getElementById('end_').value = document.getElementById('end_pos').value
+
+
+    var marker = new google.maps.Marker({
+        position: lat_lng,
+        map: map
+    });
+
+    if (post_makers.length != 0) {
+        post_makers[0].setMap(null)
+        post_makers.pop()
+    }
+    post_makers.push(marker);
+
+    console.log('pos:', document.getElementById('end_pos').value)
+    console.log('lat:', lat_lng.lat())
+    console.log('lng:', lat_lng.lng())
+
+    map.panTo(lat_lng);
+
+    calculateAndDisplayRoute(directionsService, directionsDisplay) 
 }
