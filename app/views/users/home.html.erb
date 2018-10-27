@@ -262,9 +262,19 @@
     <script type="app/assets/stylesheets" src=“timedropper.css></script>
 
     <div>
-        <h2>2. 目標時間を決めてください</h2>
-        <input name="time" type="text" id="timeSection" />
-        <script>$( "#timeSection" ).timeDropper();</script>
+        <h2>2. 目標時刻を決めてください</h2>
+        <% time = Time.now %>
+        <% str = time.strftime("%H:%M")%>
+        <ul>
+            <li>
+                <%= "現在時刻：#{str}" %>
+            </li>
+            <li>
+                <input name="time" type="text" id="timeSection" />
+                <script>$( "#timeSection" ).timeDropper();</script>
+            </li>
+        </ul>
+
         <h2>3. プレイリストを決めてください</h2>
         <input type="hidden" id="playlist_id_form" name="playlist_id">
         <div class="dropdown">
