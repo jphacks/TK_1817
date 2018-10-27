@@ -5,7 +5,7 @@ module UsersHelper
   end
 
   # ログアウトする
-  def logout
+  def logout_user
     deletecookie(:currentuserid)
   end
 
