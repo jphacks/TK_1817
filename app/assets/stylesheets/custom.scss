@@ -1,2 +1,53 @@
 @import "my_variables";
 @import "bootstrap";
+
+.navright {
+    margin-left: auto;
+    float: right;
+}
+
+.homemenu {
+    position: relative;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: lighten($primary, 10);
+    font-size: 1.3rem;
+
+    color: white;
+    font-weight: bold;
+    
+    &::before{
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 20%;
+        margin-left: -15px;
+        border: 15px solid transparent;
+        border-top: 15px solid lighten($primary, 10);
+    }
+    &::after{
+        content: "?";
+        color: transparentize(white, 0.5);
+        top: -35px;
+        right: 5px;
+        white-space: nowrap;
+        position: absolute;
+        font-size: 6rem;
+        font-weight: bold;
+        transform: rotate(-30deg);
+    }
+}
+
+#map {
+    width: 100%;
+    height: 400px;
+    background-color: grey;
+}
+
+.tray {
+    background-color: lighten($primary, 30);
+    border-radius: 20px;
+    padding: 20px;
+    margin: 20px;
+}
