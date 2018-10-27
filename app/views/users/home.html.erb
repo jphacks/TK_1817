@@ -10,11 +10,9 @@
 
 <%= stylesheet_link_tag("") %>
 <div>
-    <h1>logged in menu</h1>
     <p>logged in as <%= current_user.name %></p>
-</div> 
-    <h2>1. 目的地を決めてください</h2>
-</div>
+
+<h2>1. 目的地を決めてください</h2>
 
 <body>
     <form>
@@ -30,14 +28,18 @@
         <input type="radio" name="show-hide" id="show-poi" class="selector-control" checked="checked">
         <label for="show-poi">Show</label>
     </div>
-    <div id="right-panel"></div>
+    <!--
+        <div id="right-panel"></div>
+    -->
     <div id="map"></div>
     <div id="infowindow-content">
         <img src="" width="16" height="16" id="place-icon">
         <span id="place-name" class="title"></span><br>
         <span id="place-address"></span>
     </div>
-    <div id="directions-panel"></div>
+    <!--
+        <div id="directions-panel"></div>
+    -->
     <%= javascript_include_tag 'style.js' %>
     <script>
         var map, infoWindow, pos;
@@ -74,7 +76,7 @@
             });
 
             directionsDisplay.setMap(map);
-            directionsDisplay.setPanel(document.getElementById('right-panel'));
+            // directionsDisplay.setPanel(document.getElementById('right-panel'));
             infoWindow = new google.maps.InfoWindow;
 
             if (navigator.geolocation) {
@@ -213,27 +215,26 @@
 
                     var distance = 0
                     var route = response.routes[0];
-                    var summaryPanel = document.getElementById('directions-panel');
-                    summaryPanel.innerHTML = '';
+                    //var summaryPanel = document.getElementById('directions-panel');
+                    //summaryPanel.innerHTML = '';
 
                     if (waypts.length != 0) {
                         for (var i = 0; i < route.legs.length; i++) {
                             var routeSegment = i + 1;
                             distance += route.legs[i].distance.value;
-                            summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
-                                '</b><br>';
-                            summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
-                            summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
-                            summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+                            //summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +'</b><br>';
+                            //summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
+                            //summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
+                            //summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
                         }
                     } else {
                         distance = route.legs[0].distance.value;
                     }
 
-                    summaryPanel.innerHTML += '<b>Route</b><br>';
-                    summaryPanel.innerHTML += route.legs[0].start_address + ' to ';
-                    summaryPanel.innerHTML += route.legs[route.legs.length - 1].end_address + '<br>';
-                    summaryPanel.innerHTML += String(parseFloat(distance / 1000, 2)) + ' km<br><br>';
+                    //summaryPanel.innerHTML += '<b>Route</b><br>';
+                    //summaryPanel.innerHTML += route.legs[0].start_address + ' to ';
+                    //summaryPanel.innerHTML += route.legs[route.legs.length - 1].end_address + '<br>';
+                    //summaryPanel.innerHTML += String(parseFloat(distance / 1000, 2)) + ' km<br><br>';
                     console.log("Start:" + route.legs[0].start_address)
                     console.log("End:" + route.legs[route.legs.length - 1].end_address)
 
@@ -255,11 +256,11 @@
     </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGCQhxjnRfnXNtqTYOkhebzXSPtc5KQnY&libraries=places&callback=initMap">
     </script>
-    <div>
-        <h2>2. 目標時間を決めてください</h2>
-        <h2>3. プレイリストを決めてください</h2>
-        <%= link_to("GO!", "#", class: 'btn btn-default') %>
-    </div>
 </body>
+ 
+<h2>2. 目標時間を決めてください</h2>
+<h2>3. プレイリストを決めてください</h2>
+<%= link_to("GO!", "#", class: 'btn btn-default') %>
+
 
 </html>
