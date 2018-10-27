@@ -142,10 +142,10 @@
                 this.setupPlaceChangedListener(originAutocomplete, 'WAYPOINT');
                 this.setupPlaceChangedListener(destinationAutocomplete, 'DEST');
 
-                this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(originInput);
-                this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(waypointInput);
-                this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(destinationInput);
-                this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(buttonInput);
+                //this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(originInput);
+                //this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(waypointInput);
+                //this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(destinationInput);
+                //this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(buttonInput);
         }
 
         // Sets a listener on a radio button to change the filter type on Places
@@ -209,8 +209,8 @@
 
                     var distance = 0
                     var route = response.routes[0];
-                    //var summaryPanel = document.getElementById('directions-panel');
-                    //summaryPanel.innerHTML = '';
+                    var summaryPanel = document.getElementById('directions-panel');
+                    summaryPanel.innerHTML = '';
 
                     if (waypts.length != 0) {
                         for (var i = 0; i < route.legs.length; i++) {
@@ -228,7 +228,7 @@
                     //summaryPanel.innerHTML += '<b>Route</b><br>';
                     //summaryPanel.innerHTML += route.legs[0].start_address + ' to ';
                     //summaryPanel.innerHTML += route.legs[route.legs.length - 1].end_address + '<br>';
-                    //summaryPanel.innerHTML += String(parseFloat(distance / 1000, 2)) + ' km<br><br>';
+                    summaryPanel.innerHTML += '目的地まで: ' + String(parseFloat(distance / 1000, 2)) + ' km!<br><br>';
                     console.log("Start:" + route.legs[0].start_address)
                     console.log("End:" + route.legs[route.legs.length - 1].end_address)
 
@@ -248,21 +248,21 @@
             infoWindow.open(map);
         }
     </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGCQhxjnRfnXNtqTYOkhebzXSPtc5KQnY&libraries=places&callback=initMap">
-    </script>
-
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGCQhxjnRfnXNtqTYOkhebzXSPtc5KQnY&libraries=places&callback=initMap"></script>
     <script type="app/assets/javascripts" src=“timedropper.js></script>
     <script type="app/assets/stylesheets" src=“timedropper.css></script>
 </body>
 
-</html>
 <%= stylesheet_link_tag("") %>
 <div>
     <h2>2. 目標時間を決めてください</h2>
     <input type="text" id="timeSection" />
-    <script>$( "#timeSection" ).timeDropper();</script>    
+    <script>$( "#timeSection" ).timeDropper();
+    </script>    
     <h2>3. プレイリストを決めてください</h2>
 </div>
 <div class="btn_container">
     <%= link_to("GO!", "#", class: 'square_btn') %>
 </div>
+
+</html>
