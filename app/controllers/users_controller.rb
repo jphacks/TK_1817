@@ -34,6 +34,40 @@ class UsersController < ApplicationController
   end
 
   def play
+    spotify_authenticate
+    playlist_id = params['playlist_id']
+    playlist_user = 'aaa'
+
+    pl = RSpotify::Playlist.find(playlist_user, playlist_id)
+    tracks = pl.tracks
     
+    bpms = tracks.map.with_index do |track, index|
+      {
+        id: index,
+        tempo: track.audio_features.tempo
+      }
+    end
+
+    # 残り時間(秒)
+    limittime = Time.parse(params['time']) - Time.now
+
+    # 求められる早さ(m/s)
+    speed = params['distance'].to_i / limittime
+
+    # 歩幅(m)
+    steplength = 0.7
+
+    # bpm
+    desired_tempo = speed / steplength * 60
+    p "DESIRED TEMPO: #{desired_tempo}"
+
+    bpms.each do |b|
+      b[:diff] = (b[:tempo] - desired_tempo).abs
+    end
+
+    selected_music = bpms.min_by do |b|
+      b[:diff]
+    end
+
   end
 end
