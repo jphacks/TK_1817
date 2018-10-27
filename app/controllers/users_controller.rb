@@ -62,7 +62,7 @@ class UsersController < ApplicationController
 
     # bpm
     desired_tempo = speed / steplength * 60
-    
+
     bpms.each do |b|
       b[:diff] = (b[:tempo] - desired_tempo).abs
     end
@@ -94,5 +94,10 @@ class UsersController < ApplicationController
     )
 
     redirect_to '/player'
+  end
+
+  def stop
+    RSpotify::Player.new(spotify_user(current_user)).pause
+    redirect_to root_path
   end
 end
