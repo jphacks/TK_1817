@@ -18,7 +18,9 @@
         <input type="radio" name="show-hide" id="show-poi" class="selector-control" checked="checked">
         <label for="show-poi">Show</label>
     </div>
-    <div id="right-panel"></div>
+    <!--
+        <div id="right-panel"></div>
+    -->
     <div id="map"></div>
     <div id="infowindow-content">
         <img src="" width="16" height="16" id="place-icon">
@@ -63,7 +65,7 @@
             });
 
             directionsDisplay.setMap(map);
-            directionsDisplay.setPanel(document.getElementById('right-panel'));
+            //directionsDisplay.setPanel(document.getElementById('right-panel'));
             infoWindow = new google.maps.InfoWindow;
 
             if (navigator.geolocation) {
@@ -158,7 +160,6 @@
                 }
                 me.route();
             });
-
         };
 
         AutocompleteDirectionsHandler.prototype.route = function () {
@@ -202,27 +203,26 @@
 
                     var distance = 0
                     var route = response.routes[0];
-                    var summaryPanel = document.getElementById('directions-panel');
-                    summaryPanel.innerHTML = '';
+                    //var summaryPanel = document.getElementById('directions-panel');
+                    //summaryPanel.innerHTML = '';
 
                     if (waypts.length != 0) {
                         for (var i = 0; i < route.legs.length; i++) {
                             var routeSegment = i + 1;
                             distance += route.legs[i].distance.value;
-                            summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
-                                '</b><br>';
-                            summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
-                            summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
-                            summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+                            //summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment + '</b><br>';
+                            //summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
+                            //summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
+                            //summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
                         }
                     } else {
                         distance = route.legs[0].distance.value;
                     }
 
-                    summaryPanel.innerHTML += '<b>Route</b><br>';
-                    summaryPanel.innerHTML += route.legs[0].start_address + ' to ';
-                    summaryPanel.innerHTML += route.legs[route.legs.length - 1].end_address + '<br>';
-                    summaryPanel.innerHTML += String(parseFloat(distance / 1000, 2)) + ' km<br><br>';
+                    //summaryPanel.innerHTML += '<b>Route</b><br>';
+                    //summaryPanel.innerHTML += route.legs[0].start_address + ' to ';
+                    //summaryPanel.innerHTML += route.legs[route.legs.length - 1].end_address + '<br>';
+                    //summaryPanel.innerHTML += String(parseFloat(distance / 1000, 2)) + ' km<br><br>';
                     console.log("Start:" + route.legs[0].start_address)
                     console.log("End:" + route.legs[route.legs.length - 1].end_address)
 
