@@ -1,12 +1,14 @@
 <%= form_tag('/play') do %>
 
     <div class="tray">
-    <h2 class="homemenu">1. 目的地を決めてください</h2>
+    <h2 class="homemenu">1. ルートを決めてください</h2>
 
-    <input type="text" placeholder="現在地" id="start">
-    <input type="text" placeholder="経由地" id="waypoint">
-    <input type="text" placeholder="目的地" id="end">
-    <input type="button" value="検索" id="button">
+    <div class="input-group input-group-lg mb-3">
+        <input type="text" placeholder="現在地" id="start" class="form-control">
+        <input type="text" placeholder="経由地" id="waypoint" class="form-control">
+        <input type="text" placeholder="目的地" id="end" class="form-control">
+        <input type="button" value="検索" id="button" class="btn btn-primary">
+    </div>
 
     <div id="style-selector-control" class="map-control">
         <input type="radio" name="show-hide" id="hide-poi" class="selector-control">
@@ -23,14 +25,14 @@
         <span id="place-name" class="title"></span><br>
         <span id="place-address"></span>
     </div>
-    <div id="directions-panel"></div>
+    <div id="directions-panel" class="result"></div>
 
     <input type="hidden" name="distance" value="0.0" id="distance">
     <input type="hidden" name="end_" value="0.0" id="end_">
     </div>
 
     <div class="tray">
-        <h2>2. 目標時刻を決めてください</h2>
+        <h2 class="homemenu">2. 目標時刻を決めてください</h2>
         <script>
         var time1 = new Date();
         var hour=time1.getHours();
@@ -38,19 +40,25 @@
         if (minute>=0 && minute<=9) {minute = "0"+str(minute);}
         //document.write(typeof(minute))
         </script>
-        <ul>
-            <li>
-                <div id="nowtime"></div>
-                <script>
-                    $("#nowtime").text("現在時刻 " + hour + ":" + minute);
-                </script>
-            </li>
-            <li>
-               <%= "目標時刻" %>
-               <input name="time" type="text" id="timeSection" />
-               <script>$( "#timeSection" ).timeDropper({meridians: false, format: "a hh:mm"});</script>
-            </li>
-        </ul>
+
+        <div class="row mb-2">
+            <div class="col-5">
+                <div>現在時刻</div>
+                <div id="nowtime" class="time-lg"></div>
+            </div>
+            <div class="col-2 bigicon">
+                →
+            </div>
+            <div class="col-5">
+                <div>目標時刻</div>
+                <input name="time" type="text" id="timeSection" class="time-lg" />
+            </div>
+        </div>
+        
+        <script>
+            $("#nowtime").text((hour < 12 ? 'am' : 'pm') + ' ' + ('00' + hour).slice(-2) + ":" + ('00' + minute).slice(-2));
+        </script>
+        <script>$( "#timeSection" ).timeDropper({meridians: false, format: "a hh:mm"});</script>
       
         <script>
             function hyoji() {
@@ -74,27 +82,15 @@
             }
             startfunc();
         </script>
-        
-       // <script>
-       // function addValue(){
-       //     var idname = "timeSection";
-       //     s = document.getElementById(idname).value;
-       //     var pvname = idname + "pv";
-       //     document.getElementById(pvname).innerHTML = s;
-       // }
-       // </script>
-        <!-- <input name="title" type="text" id="timeSection" onKeyUp="addValue()" /> -->
-        <!-- <script>$( "#timeSection" ).timeDropper({meridians: false, format: "a hh:mm"});</script> -->
-        <!-- <div id="timeSectionpv"></div> -->
 
-        <div id="time"></div>
+        <div id="time" class="result"></div>
     </div>
 
     <div class="tray">
         <h2 class="homemenu">3. プレイリストを決めてください</h2>
         <input type="hidden" id="playlist_id_form" name="playlist_id">
         <div class="dropdown">
-            <button type="button" class="btn btn-primary dropdown-toggle" id="playlist_toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">選択してください...</button>
+            <button type="button" class="btn btn-block btn-primary dropdown-toggle" id="playlist_toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">選択してください...</button>
             <ul class="dropdown-menu">
                 <% @playlists.each do |pl| %>
                     <li><button class="dropdown-item" value="<%= pl.id %>"><%= pl.name %></button></li>
@@ -103,7 +99,7 @@
         </div>
     </div>
     <div class="btn_container">
-        <input type="submit" value"送信する" class="btn btn-primary btn-lg'">
+        <input type="submit" value="tekut start!" class="btn btn-lg btn-block btn-primary btn-lg mb-3">
     </div>
 
     <% content_for :javascripts do %>

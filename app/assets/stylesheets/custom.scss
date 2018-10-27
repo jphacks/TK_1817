@@ -1,6 +1,17 @@
 @import "my_variables";
 @import "bootstrap";
 
+html{
+    font-size: 100%;
+    @include media-breakpoint-down(xs) {
+      font-size: calc(60% + 1.2vw);
+    }
+}
+
+#waypoint {
+    display: none;
+}
+
 .navright {
     margin-left: auto;
     float: right;
@@ -16,16 +27,9 @@
 
     color: white;
     font-weight: bold;
+
+    overflow: hidden;
     
-    &::before{
-        content: "";
-        position: absolute;
-        top: 100%;
-        left: 20%;
-        margin-left: -15px;
-        border: 15px solid transparent;
-        border-top: 15px solid lighten($primary, 10);
-    }
     &::after{
         content: "?";
         color: transparentize(white, 0.5);
@@ -50,4 +54,58 @@
     border-radius: 20px;
     padding: 20px;
     margin: 20px;
+}
+
+.result {
+    position: relative;
+    border-radius: 10px;
+    background-color: lighten($secondary, 10);
+    font-size: 2rem;
+
+    text-align: center;
+    color: white;
+    font-weight: bold;
+
+    overflow: hidden;
+
+    &::before{
+        content: "";
+        position: absolute;
+        top: -30px;
+        left: 50%;
+        margin-left: -15px;
+        border: 15px solid transparent;
+        border-bottom: 15px solid lighten($secondary, 10);
+    }
+
+    &::after{
+        content: "!";
+        color: transparentize(white, 0.5);
+        top: -35px;
+        right: 5px;
+        white-space: nowrap;
+        position: absolute;
+        font-size: 6rem;
+        font-weight: bold;
+        transform: rotate(-30deg);
+    }
+}
+
+.time-lg{
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+input.time-lg{
+    width: 8rem;
+}
+
+.bigicon{
+    font-size: 3rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.block-dropdown{
+    display: block;
 }
