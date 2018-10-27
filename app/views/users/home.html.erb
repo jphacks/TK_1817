@@ -1,33 +1,61 @@
 <%= stylesheet_link_tag("") %>
-<div>
-    <h1>logged in menu</h1>
-    <p>logged in as <%= current_user.name %></p>
-</div> 
-    <h2>1. 目的地を決めてください</h2>
-    <h2>2. 目標時間を決めてください</h2>
-    <h2>3. プレイリストを決めてください</h2>
-    <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown button
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <% @playlists.each do |pl| %>
-                <a class="dropdown-item" href="#"><%= pl.name %></a>
-            <% end %>
-        </div>
-    </div>
+<!DOCTYPE html>
+<html>
 
-    <div class="dropdown">
-        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">選択...</button>
-        <ul class="dropdown-menu">
-            <li><button class="dropdown-item" value="項目1">項目1</button></li>
-            <li><button class="dropdown-item" value="項目2">項目2</button></li>
-            <li><button class="dropdown-item" value="項目3">項目3</button></li>
-        </ul>
-    </div>
-    <%= link_to("GO!", "#", class: 'btn btn-default') %>
+<div>
+    <p>logged in as <%= current_user.name %></p>
 </div>
 
+<h2>1. 目的地を決めてください</h2>
+
+<body>
+    <form>
+        <input type="text" placeholder="現在地" id="start">
+        <input type="text" placeholder="経由地" id="waypoint">
+        <input type="text" placeholder="目的地" id="end">
+        <input type="button" value="検索" id="button">
+    </form>
+    <input type="hidden" value="0.0" id="distance">
+    <div id="style-selector-control" class="map-control">
+        <input type="radio" name="show-hide" id="hide-poi" class="selector-control">
+        <label for="hide-poi">Hide</label>
+        <input type="radio" name="show-hide" id="show-poi" class="selector-control" checked="checked">
+        <label for="show-poi">Show</label>
+    </div>
+    <!--
+        <div id="right-panel"></div>
+    -->
+    <div id="map"></div>
+    <div id="infowindow-content">
+        <img src="" width="16" height="16" id="place-icon">
+        <span id="place-name" class="title"></span><br>
+        <span id="place-address"></span>
+    </div>
+    <!--
+        <div id="directions-panel"></div>
+    -->
+    <%= javascript_include_tag 'style.js' %>
+    <script>
+        var map, infoWindow, pos;
+        var style = read_style();
+        var styles = {
+            default: style,
+            hide: style.concat([
+                {
+                    featureType: 'poi.business',
+                    stylers: [{ visibility: 'off' }]
+                },
+                {
+                    featureType: 'transit',
+                    elementType: 'labels.icon',
+                    stylers: [{ visibility: 'off' }]
+                }
+            ])
+        };
+        
+        function initMap() {
+            console.log('Debug');
+          
 <form>
     <input type="text" placeholder="現在地" id="start">
     <input type="text" placeholder="経由地" id="waypoint">
@@ -80,6 +108,10 @@
         var directionsService = new google.maps.DirectionsService();
         var directionsDisplay = new google.maps.DirectionsRenderer();
         var service = new google.maps.DistanceMatrixService;
+
+        directionsDisplay.setMap(map);
+        // directionsDisplay.setPanel(document.getElementById('right-panel'));
+        infoWindow = new google.maps.InfoWindow;
 
         var map = new google.maps.Map(document.getElementById('map'), {
             center: { lat: 35.5709605, lng: 139.63446 },
@@ -205,54 +237,28 @@
         });
     };
 
-    function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-        var waypts = [];
-
-        if (document.getElementById('waypoint').value) {
-            waypts.push({
-                location: document.getElementById('waypoint').value,
-                stopover: true,
-            });
+        if (waypts.length != 0) {
+            for (var i = 0; i < route.legs.length; i++) {
+                var routeSegment = i + 1;
+                distance += route.legs[i].distance.value;
+                //summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment + '</b><br>';
+                //summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
+                //summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
+                //summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+            }
+        } else {
+            distance = route.legs[0].distance.value;
         }
-        
-        directionsService.route({
-            origin: document.getElementById('start').value,
-            destination: document.getElementById('end').value,
-            waypoints: waypts,
-            optimizeWaypoints: true,
-            travelMode: 'WALKING'
-        }, function (response, status) {
-            if (status === 'OK') {
-                directionsDisplay.setDirections(response);
 
-                var distance = 0
-                var route = response.routes[0];
-                var summaryPanel = document.getElementById('directions-panel');
-                summaryPanel.innerHTML = '';
+        //summaryPanel.innerHTML += '<b>Route</b><br>';
+        //summaryPanel.innerHTML += route.legs[0].start_address + ' to ';
+        //summaryPanel.innerHTML += route.legs[route.legs.length - 1].end_address + '<br>';
+        //summaryPanel.innerHTML += String(parseFloat(distance / 1000, 2)) + ' km<br><br>';
+        console.log("Start:" + route.legs[0].start_address)
+        console.log("End:" + route.legs[route.legs.length - 1].end_address)
 
-                if (waypts.length != 0) {
-                    for (var i = 0; i < route.legs.length; i++) {
-                        var routeSegment = i + 1;
-                        distance += route.legs[i].distance.value;
-                        summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
-                            '</b><br>';
-                        summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
-                        summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
-                        summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
-                    }
-                } else {
-                    distance = route.legs[0].distance.value;
-                }
-
-                summaryPanel.innerHTML += '<b>Route</b><br>';
-                summaryPanel.innerHTML += route.legs[0].start_address + ' to ';
-                summaryPanel.innerHTML += route.legs[route.legs.length - 1].end_address + '<br>';
-                summaryPanel.innerHTML += String(parseFloat(distance / 1000, 2)) + ' km<br><br>';
-                console.log("Start:" + route.legs[0].start_address)
-                console.log("End:" + route.legs[route.legs.length - 1].end_address)
-
-                document.getElementById('distance').value = parseFloat(distance / 1000, 2)
-                console.log("distance set:" + parseFloat(distance / 1000, 2))
+        document.getElementById('distance').value = parseFloat(distance / 1000, 2)
+        console.log("distance set:" + parseFloat(distance / 1000, 2))
             } else {
                 window.alert('Directions request failed due to ' + status);
             }
@@ -269,3 +275,12 @@
 </script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGCQhxjnRfnXNtqTYOkhebzXSPtc5KQnY&libraries=places&callback=initMap">
 </script>
+<div>
+    <h2>2. 目標時間を決めてください</h2>
+    <h2>3. プレイリストを決めてください</h2>
+</div>
+<div class="btn_container">
+    <%= link_to("GO!", "#", class: 'square_btn') %>
+</div>
+
+</html>
