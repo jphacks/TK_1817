@@ -263,17 +263,59 @@
 
     <div>
         <h2>2. 目標時刻を決めてください</h2>
-        <% time = Time.now %>
-        <% str = time.strftime("%H:%M")%>
+        <script>
+        var time1 = new Date();
+        var hour=time1.getHours();
+        var minute=time1.getMinutes();
+        if (minute>=0 && minute<=9) {minute = "0"+str(minute);}
+        //document.write(typeof(minute))
+        </script>
         <ul>
             <li>
-                <%= "現在時刻：#{str}" %>
+                <script>
+                    document.write("現在時刻 " + hour + ":" + minute);
+                </script>
             </li>
             <li>
-                <input name="time" type="text" id="timeSection" />
-                <script>$( "#timeSection" ).timeDropper();</script>
+               <%= "目標時刻" %>
+               <input name="time" type="text" id="timeSection" />
+               <script>$( "#timeSection" ).timeDropper({meridians: false, format: "a hh:mm"});</script>
             </li>
         </ul>
+        <script>
+            function hyoji() {
+                var time2 = document.getElementById("timeSection");
+                var time2_str = time2.value;
+                //document.write(time2_str);
+                //document.write(typeof time2_str);
+                //document.write(time2_str.substr(4, 2));
+                //document.write(time2_str.substr(6, 2));
+                //document.write(time2_str.substring(0, 2));
+                var ampm = time2_str.substr(0, 2);
+                var hour2 = Number(time2_str.substr(3, 2));
+                var minute2 = Number(time2_str.substr(6, 2));
+                if (ampm == "pm") {hour2 = hour2 + 12;}
+                $("#time").text("所要時間 " + hour2 + ":" + minute2);
+            }
+            function startfunc() {
+                setInterval("hyoji()", 1000);
+            }
+            startfunc();
+        </script>
+        
+       // <script>
+       // function addValue(){
+       //     var idname = "timeSection";
+       //     s = document.getElementById(idname).value;
+       //     var pvname = idname + "pv";
+       //     document.getElementById(pvname).innerHTML = s;
+       // }
+       // </script>
+        <!-- <input name="title" type="text" id="timeSection" onKeyUp="addValue()" /> -->
+        <!-- <script>$( "#timeSection" ).timeDropper({meridians: false, format: "a hh:mm"});</script> -->
+        <!-- <div id="timeSectionpv"></div> -->
+
+        <div id="time"></div>
 
         <h2>3. プレイリストを決めてください</h2>
         <input type="hidden" id="playlist_id_form" name="playlist_id">
