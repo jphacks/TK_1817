@@ -1,6 +1,17 @@
 @import "my_variables";
 @import "bootstrap";
 
+html{
+    font-size: 100%;
+    @include media-breakpoint-down(xs) {
+      font-size: calc(60% + 1.2vw);
+    }
+}
+
+#waypoint {
+    display: none;
+}
+
 .navright {
     margin-left: auto;
     float: right;
@@ -19,15 +30,6 @@
 
     overflow: hidden;
     
-    &::before{
-        content: "";
-        position: absolute;
-        top: 100%;
-        left: 20%;
-        margin-left: -15px;
-        border: 15px solid transparent;
-        border-top: 15px solid lighten($primary, 10);
-    }
     &::after{
         content: "?";
         color: transparentize(white, 0.5);
@@ -56,11 +58,9 @@
 
 .result {
     position: relative;
-    margin-bottom: 20px;
     border-radius: 10px;
-    padding: 10px;
     background-color: lighten($secondary, 10);
-    font-size: 1.3rem;
+    font-size: 2rem;
 
     text-align: center;
     color: white;
@@ -89,4 +89,23 @@
         font-weight: bold;
         transform: rotate(-30deg);
     }
+}
+
+.time-lg{
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+input.time-lg{
+    width: 8rem;
+}
+
+.bigicon{
+    font-size: 3rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.block-dropdown{
+    display: block;
 }
