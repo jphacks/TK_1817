@@ -62,7 +62,6 @@ class UsersController < ApplicationController
 
     # bpm
     desired_tempo = speed / steplength * 60
-    p "DESIRED TEMPO: #{desired_tempo}"
 
     bpms.each do |b|
       b[:diff] = (b[:tempo] - desired_tempo).abs
@@ -81,11 +80,24 @@ class UsersController < ApplicationController
       "position_ms": 0
     }
     
+    # No player failsafe
+    device = spotify_user(current_user).devices.first
+    if device.nil?
+      flash[:warning] = "Spotify プレイヤーが見つかりませんでした。アプリを起動してください。"
+      redirect_to root_path
+      return
+    end
+
     player.play(
-      spotify_user(current_user).devices.first.id, 
+      device.id, 
       params
     )
 
     redirect_to '/player'
+  end
+
+  def stop
+    RSpotify::Player.new(spotify_user(current_user)).pause
+    redirect_to root_path
   end
 end

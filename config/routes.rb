@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get '/status', to: 'users#status'
   get '/logout', to: 'users#logout'
   post '/play', to: 'users#play'
+  get '/stop', to: 'users#stop'
   get '/player', to: 'users#player'
 
   # Spotify API callback
