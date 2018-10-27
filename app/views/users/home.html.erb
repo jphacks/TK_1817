@@ -2,6 +2,10 @@
 <!DOCTYPE html>
 <html>
 
+<div>
+    <p>logged in as <%= current_user.name %></p>
+</div>
+
 <h2>1. 目的地を決めてください</h2>
 
 <body>
@@ -28,8 +32,10 @@
         <span id="place-address"></span>
     </div>
     <div id="directions-panel"></div>
+
     <%= stylesheet_link_tag 'home.css', media: "all", 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'style.js', 'data-turbolinks-track': 'reload' %>
+
     <script>
         var map, infoWindow, pos;
         var style = read_style();
