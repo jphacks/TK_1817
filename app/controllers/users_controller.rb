@@ -32,4 +32,8 @@ class UsersController < ApplicationController
     logout_user
     redirect_to root_path
   end
+
+  def play
+    
+  end
 end
