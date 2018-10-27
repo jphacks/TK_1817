@@ -6,6 +6,9 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <link rel="app/assets/stylesheets" href="home.css">
+    <link rel="app/assets/stylesheets" href="timedropper.css">
+    <script type="app/assets/javascripts" src=“timedropper.js"></script>
+    <script src="app/assets/javascripts/jquery-2.2.4.min.js"></script>
 </head>
 
 <div>
@@ -261,6 +264,8 @@
 
 <div>
     <h2>2. 目標時間を決めてください</h2>
+    <input type="text" id="timeSection" />
+    <script>$( "#timeSection" ).timeDropper();</script>    
     <h2>3. プレイリストを決めてください</h2>
 </div>
 <div class="btn_container">
