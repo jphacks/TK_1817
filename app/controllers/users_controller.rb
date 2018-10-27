@@ -62,8 +62,7 @@ class UsersController < ApplicationController
 
     # bpm
     desired_tempo = speed / steplength * 60
-    p "DESIRED TEMPO: #{desired_tempo}"
-
+    
     bpms.each do |b|
       b[:diff] = (b[:tempo] - desired_tempo).abs
     end
