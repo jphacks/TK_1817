@@ -267,40 +267,24 @@
 </body>
 
 </html>
-<<<<<<< HEAD
+
     <div>
     <%= form_tag("#") do %>
         <h2>2. 目標時間を決めてください</h2>
         <input name="time" type="text" id="timeSection" />
         <script>$( "#timeSection" ).timeDropper();</script>
         <h2>3. プレイリストを決めてください</h2>
+        <input type="hidden" id="playlist_id_form" name="playlist_id">
+        <div class="dropdown">
+            <button type="button" class="btn btn-primary dropdown-toggle" id="playlist_toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">項目を選択してください</button>
+            <ul class="dropdown-menu">
+                <% @playlists.each do |pl| %>
+                    <li><button class="dropdown-item" value="<%= pl.id %>"><%= pl.name %></button></li>
+                <% end %>
+            </ul>
+        </div>
     </div>
     <div class="btn_container">
-    <input type="submit" value"送信する" class="btn btn-primary btn-lg'">
+        <input type="submit" value"送信する" class="btn btn-primary btn-lg'">
     </div>
 <% end %>
-=======
-<%= stylesheet_link_tag("") %>
-<div>
-    <h2>2. 目標時間を決めてください</h2>
-</div>
-    <input type="text" id="timeSection" />
-    <script>$( "#timeSection" ).timeDropper();</script>    
-
-<div class="mb-2">
-    <h2>3. プレイリストを決めてください</h2>
-    <input type="hidden" id="playlist_id_form" name="playlist_id">
-    <div class="dropdown">
-        <button type="button" class="btn btn-primary dropdown-toggle" id="playlist_toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">項目を選択してください</button>
-        <ul class="dropdown-menu">
-            <% @playlists.each do |pl| %>
-                <li><button class="dropdown-item" value="<%= pl.id %>"><%= pl.name %></button></li>
-            <% end %>
-        </ul>
-    </div>
-
-</div>
-<div class="btn_container">
-    <%= link_to("GO!", "#", class: 'square_btn') %>
-</div>
->>>>>>> 1dc75a9c6f27ad557c4edd9755abd5abd8ca8ea8
