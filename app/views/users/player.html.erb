@@ -146,8 +146,8 @@ function draw(){
     
     if ( d < stirDist ){
         var mAcc = ( 1 - ( d / stirDist ) ) * canvasW * 0.00026;
-        vX += mouseVX * mAcc;
-        vY += mouseVY * mAcc;           
+        vX += mAcc;
+        vY += mAcc;           
     }
     
     vX *= friction;
