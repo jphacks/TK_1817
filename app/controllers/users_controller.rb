@@ -22,4 +22,9 @@ class UsersController < ApplicationController
   def home
     render 'static_pages/home' unless logged_in?
   end
+
+  def logout
+    logout_user
+    redirect_to root_path
+  end
 end
