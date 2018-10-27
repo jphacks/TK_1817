@@ -66,7 +66,7 @@ new AutocompleteDirectionsHandler(map, pos);
     
 var button = document.getElementById("button");
     button.addEventListener('click', function () {
-        calculateAndDisplayRoute(directionsService, directionsDisplay);
+        calculateAndDisplayRoute(directionsService, directionsDisplay, 'search');
 });
 
 var styleControl = document.getElementById('style-selector-control');
@@ -152,10 +152,11 @@ AutocompleteDirectionsHandler.prototype.route = function () {
     });
 };
 
-function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+function calculateAndDisplayRoute(directionsService, directionsDisplay, mode) {
     var start;
     var end;
-    if (!document.getElementById('start').value) { 
+
+    if (!document.getElementById('start').value) {
         start = document.getElementById('start_pos').value;
         console.log('Start pos!');
     } else {
@@ -163,12 +164,12 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
         console.log('Start!');
     }
 
-    if (!document.getElementById('end').value) {
-        end = document.getElementById('end_pos').value;
-        console.log('End pos!');
-    } else {
+    if (mode == 'search') {
         end = document.getElementById('end').value;
         console.log('End!');
+    } else {
+        end = document.getElementById('end_pos').value;
+        console.log('End pos!');
     }
 
     console.log('Start:', start);
@@ -238,6 +239,6 @@ function getClickLatLng(lat_lng, map, directionsService, directionsDisplay) {
     console.log('lng:', lat_lng.lng())
 
     map.panTo(lat_lng);
-
-    calculateAndDisplayRoute(directionsService, directionsDisplay) 
+    
+    calculateAndDisplayRoute(directionsService, directionsDisplay, "click") 
 }
