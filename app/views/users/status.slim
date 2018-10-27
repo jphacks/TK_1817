@@ -1,0 +1,17 @@
+h1 #{current_user.name}のステータス
+
+h3 active devices
+
+table
+    tr
+        th id
+        th active
+        th name
+        th type
+        
+    - spotify_user(current_user).devices.each do |d|
+        tr
+            td #{d.id}
+            td #{d.is_active}
+            td #{d.name}
+            td #{d.type}

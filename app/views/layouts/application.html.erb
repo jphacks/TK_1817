@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>TK1817</title>
+    <title>FrSpotifyTest</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -10,6 +10,11 @@
   </head>
 
   <body>
+    <% if logged_in? %>
+      <div>logged in as <%= current_user.name %>.</div>
+    <% else %>
+      <div>not logged in.</div>
+    <% end %>
     <%= yield %>
   </body>
 </html>
