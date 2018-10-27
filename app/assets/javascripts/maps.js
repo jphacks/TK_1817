@@ -29,7 +29,7 @@ function initMap() {
     });
 
     map.addListener('click', function (e) {
-        getClickLatLng(e.latLng, map);
+        getClickLatLng(e.latLng, map, directionsService, directionsDisplay);
     });
 
     directionsDisplay.setMap(map);
@@ -40,24 +40,26 @@ function initMap() {
         navigator.geolocation.getCurrentPosition(function (position) {
             pos = {
                 lat: position.coords.latitude,
-                lng: position.coords.longitude
+                lng: position.coords.longitude,
             };
 
-        console.log('lat: ', position.coords.latitude);
-        console.log('lng: ', position.coords.longitude);
-       
-        document.getElementById('start_pos').value = pos 
-       
-        infoWindow.setPosition(pos);
-        infoWindow.setContent('Location found.');
-        infoWindow.open(map);
-        map.setCenter(pos);
-
+            console.log('lat: ', position.coords.latitude);
+            console.log('lng: ', position.coords.longitude);
+            
+            document.getElementById('start_pos').value = [
+                position.coords.latitude,
+                position.coords.longitude,
+            ]
+            
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('Location found.');
+            infoWindow.open(map);
+            map.setCenter(pos);
     }, function () {
         handleLocationError(true, infoWindow, map.getCenter());
     });
-} else {
-    handleLocationError(false, infoWindow, map.getCenter());
+    } else {
+        handleLocationError(false, infoWindow, map.getCenter());
 }
 
 new AutocompleteDirectionsHandler(map, pos);
@@ -151,34 +153,30 @@ AutocompleteDirectionsHandler.prototype.route = function () {
 };
 
 function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-    var waypts = [];
-
-    if (document.getElementById('waypoint').value) {
-        waypts.push({
-            location: document.getElementById('waypoint').value,
-            stopover: true,
-        });
-    }
-
     var start;
     var end;
     if (!document.getElementById('start').value) { 
         start = document.getElementById('start_pos').value;
+        console.log('Start pos!');
     } else {
         start = document.getElementById('start').value;
+        console.log('Start!');
     }
 
     if (!document.getElementById('end').value) {
-        end = document.getElementById('end').value;
-    } else {
         end = document.getElementById('end_pos').value;
+        console.log('End pos!');
+    } else {
+        end = document.getElementById('end').value;
+        console.log('End!');
     }
+
+    console.log('Start:', start);
+    console.log('End:', end);
 
     directionsService.route({
         origin: start,
         destination: end,
-        waypoints: waypts,
-        optimizeWaypoints: true,
         travelMode: 'WALKING'
     }, function (response, status) {
         if (status === 'OK') {
@@ -189,18 +187,7 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
             var summaryPanel = document.getElementById('directions-panel');
             summaryPanel.innerHTML = '';
 
-            if (waypts.length != 0) {
-                for (var i = 0; i < route.legs.length; i++) {
-                    //var routeSegment = i + 1;
-                    distance += route.legs[i].distance.value;
-                    //summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment + '</b><br>';
-                    //summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
-                    //summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
-                    //summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
-                }
-            } else {
-                distance = route.legs[0].distance.value;
-            }
+            distance = route.legs[0].distance.value;
 
             //summaryPanel.innerHTML += '<b>Route</b><br>';
             //summaryPanel.innerHTML += route.legs[0].start_address + ' to ';
@@ -225,7 +212,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     infoWindow.open(map);
 }
 
-function getClickLatLng(lat_lng, map) {
+function getClickLatLng(lat_lng, map, directionsService, directionsDisplay) {
     document.getElementById('lat').textContent = lat_lng.lat();
     document.getElementById('lng').textContent = lat_lng.lng();
     document.getElementById('end_pos').value = [
@@ -251,4 +238,6 @@ function getClickLatLng(lat_lng, map) {
     console.log('lng:', lat_lng.lng())
 
     map.panTo(lat_lng);
+
+    calculateAndDisplayRoute(directionsService, directionsDisplay) 
 }
