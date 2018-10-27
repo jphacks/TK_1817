@@ -6,23 +6,11 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-}
-
-#floating-panel {
-    position: absolute;
-    top: 10px;
-    left: 25%;
-    z-index: 5;
-    background-color: #fff;
-    padding: 5px;
-    border: 1px solid #999;
+    margin: auto;
     text-align: center;
-    font-family: 'Roboto','sans-serif';
-    line-height: 30px;
-    padding-left: 10px;
 }
 
-#right-panel {
+/* #right-panel {
     font-family: 'Roboto','sans-serif';
     line-height: 30px;
     padding-left: 10px;
@@ -45,28 +33,21 @@ html, body {
     float: right;
     width: 390px;
     overflow: auto;
-}
+} */
 
-#directions-panel {
-    margin-top: 10px;
+/* #directions-panel { */
+    /* margin-top: 10px;
     background-color: #FFEE77;
     padding: 10px;
     overflow: scroll;
     height: 174px;
-}
+} */
 
 #map {
-    margin-right: 400px;
-}
-
-#floating-panel {
-    background: #fff;
-    padding: 5px;
-    font-size: 14px;
-    font-family: Arial;
-    border: 1px solid #ccc;
-    box-shadow: 0 2px 2px rgba(33, 33, 33, 0.4);
-    display: none;
+    /* margin-left: 200px;
+    margin-right: 200px; */
+    width: 60%;
+    margin: auto;
 }
 
 @media print {
@@ -97,4 +78,24 @@ html, body {
 
 #map #infowindow-content {
     display: inline;
+}
+
+.square_btn{
+    display: inline-block;
+    padding: 0.5em 1em;
+    text-decoration: none;
+    background: #668ad8;/*ボタン色*/
+    color: #FFF;
+    border-bottom: solid 4px #627295;
+    border-radius: 3px;
+}
+
+.square_btn:active {/*ボタンを押したとき*/
+    -ms-transform: translateY(4px);
+    -webkit-transform: translateY(4px);
+    transform: translateY(4px);/*下に動く*/
+    border-bottom: none;/*線を消す*/
+}
+.btn_container {
+    text-align: center;
 }
