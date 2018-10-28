@@ -69,7 +69,7 @@ var numMovers   = 200;
 var friction    = .96;
 var movers      = [];
 var counter     = 0;
-var repeat      = 40;
+var repeat      = 3000 / <%= params[:bpm] %>;
  
 var canvas;
 var ctx;
@@ -78,7 +78,7 @@ function init(){
     canvas = document.getElementById("effect_canvas");
     if ( canvas.getContext ){
     setup();
-    setInterval( draw , 33 );
+    setInterval( draw , 20 );
     }
 }
  
@@ -109,7 +109,7 @@ function draw(){
     m.vY  = Math.sin(i) * Math.random() * 34;
     movers[i] = m;
     }
-    counter = 0;
+    counter -= repeat;
   }
     ctx.globalCompositeOperation = "source-over";
     ctx.fillStyle = "rgba(8,8,12,.65)";
