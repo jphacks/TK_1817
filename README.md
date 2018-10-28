@@ -1,6 +1,6 @@
 # サンプル（プロダクト名）
 
-[![Product Name](image.png)](https://www.youtube.com/watch?v=G5rULR53uMk)
+[![Product Name](image.png)](https://youtu.be/g4kzeeoJjIE)
 
 ## 製品概要
 ###  Teku Teku Tech
@@ -62,4 +62,3 @@ Spotify
 
 * Google Maps APIから読み取った経路情報をもとに最適な「リズム」を算出し, Spotify APIから読み取ったテンポ情報と照合し最適な音楽を選択する
 * 上記を一定周期ごとに行い, その時の誤差をもとにユーザーの「歩幅」を推定し保存する
-* さらに誤差が大きい場合, 「遅いよ」「早いよ」という風に通知を送る
