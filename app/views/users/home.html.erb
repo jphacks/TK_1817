@@ -65,6 +65,7 @@
                 var minute2 = Number(time2_str.substr(6, 2));
                 if (ampm == "pm") {hour2 = hour2 + 12;}
                 if (ampm =="am" && hour2 == 12) {hour2 = hour2 - 12;}
+                if (minute2 - minute < 0) {minute2 = minute2 + 60; hour2 = hour2 - 1;}
                 //document.write(typeof(hour2))
                 $("#time").text("所要時間 " + (hour2 - hour) + "時間" + (minute2 - minute) + "分");
             }

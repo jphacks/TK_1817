@@ -85,5 +85,18 @@ group :production do
   gem 'pg'
 end
 
+# LINE API
+gem 'dotenv-rails'
+gem 'faraday'
+gem 'faraday_middleware'
+
+# heroku用
+group :production do
+  gem 'rails_12factor'
+end
+
+# LINE 
+gem 'line-bot-api'
+
 # Below gem is only for Windows
 # gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]

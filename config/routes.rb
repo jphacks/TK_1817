@@ -15,4 +15,8 @@ Rails.application.routes.draw do
 
   # 固定ページ
   get '/help', to: 'static_pages#help'
+
+  post '/callback', to: 'webhook#callback'
+
+  
 end
