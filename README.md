@@ -46,6 +46,7 @@ Spotify
 #### フレームワーク・ライブラリ・モジュール
 * Ruby on Rails
 * Spotify Web API
+* Google Maps API
 
 #### デバイス
 * スマートフォン
