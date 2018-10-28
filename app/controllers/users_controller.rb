@@ -35,6 +35,8 @@ class UsersController < ApplicationController
 
   def play
     current_user.end = params['end_']
+    current_user.time = params['time']
+    current_user.recent_playlist = params['playlist_id']
     current_user.save!
 
     spotify_authenticate
