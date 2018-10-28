@@ -93,7 +93,7 @@ class UsersController < ApplicationController
       params
     )
 
-    redirect_to '/player'
+    redirect_to player_path(bpm: selected_music[:tempo])
   end
 
   def stop
