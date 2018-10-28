@@ -61,7 +61,7 @@
         </div>
         
         <script>
-            $("#nowtime").text((hour < 12 ? 'am' : 'pm') + ' ' + ('00' + hour).slice(-2) + ":" + ('00' + minute).slice(-2));
+            $("#nowtime").text((hour < 12 ? 'am' : 'pm') + ' ' + (hour < 12 ? '00' + hour : '00' + (hour - 12)).slice(-2) + ":" + ('00' + minute).slice(-2));
         </script>
         <script>$( "#timeSection" ).timeDropper({meridians: false, format: "a hh:mm"});</script>
       
