@@ -34,9 +34,7 @@ class UsersController < ApplicationController
   end
 
   def play
-    current_user.end = params['end_']
-    current_user.time = params['time']
-    current_user.recent_playlist = params['playlist_id']
+    
 
     spotify_authenticate
     playlist_id = params['playlist_id']
@@ -63,7 +61,15 @@ class UsersController < ApplicationController
     speed = params['distance'].to_i / limittime
 
     # 歩幅(m)
-    steplength = 0.7
+    steplength = (current_user.step_length || 0.7)
+
+    # 歩幅再計算
+    if current_user.recent_distance
+      walkedlength = current_user.recent_distance - params['distance']
+      recent_bpm = bpms.select{|b| b[:order] == current_user.recent_played_id}.first[:tempo]
+      recent_minute = Time.now - current_user.recent_time
+      current_user.step_length = walkedlength / recent_bpm / recent_minute
+    end
 
     # bpm
     desired_tempo = speed / steplength * 60
@@ -76,6 +82,9 @@ class UsersController < ApplicationController
       b[:diff]
     end
 
+    current_user.end = params['end_']
+    current_user.time = params['time']
+    current_user.recent_playlist = params['playlist_id']
     current_user.recent_played_id = selected_music[:order]
     current_user.save!
 
