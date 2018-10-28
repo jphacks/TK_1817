@@ -1,4 +1,4 @@
-# TeKuT
+# TeKuT (Tact(指揮棒) + Tekuteku)
 
 [![Product Name](image.png)](https://youtu.be/g4kzeeoJjIE)
 
