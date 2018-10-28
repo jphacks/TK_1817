@@ -22,4 +22,5 @@ Rails.application.config.assets.precompile += %w(
   dropdown_fix.js
   timedropper.js
   timedropper.css
+  nextmusic.js
   )
