@@ -1,4 +1,4 @@
-# サンプル（プロダクト名）
+# TeKuT
 
 [![Product Name](image.png)](https://youtu.be/g4kzeeoJjIE)
 
@@ -61,4 +61,5 @@ Spotify
 特に力を入れた部分をファイルリンク、またはcommit_idを記載してください（任意）
 
 * Google Maps APIから読み取った経路情報をもとに最適な「リズム」を算出し, Spotify APIから読み取ったテンポ情報と照合し最適な音楽を選択する
-* 上記を一定周期ごとに行い, その時の誤差をもとにユーザーの「歩幅」を推定し保存する
+* 上記を一定周期ごとに行い, その時の誤差をもとにユーザーの「歩幅」を推定し保存する ( https://github.com/jphacks/TK_1817/commit/93432013993ac2261ed94c5e76475a58bf37948e )
+　→動作未確認により, Hack Dayデモ時には無効化済み
