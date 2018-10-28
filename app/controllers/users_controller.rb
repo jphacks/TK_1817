@@ -37,7 +37,6 @@ class UsersController < ApplicationController
     current_user.end = params['end_']
     current_user.time = params['time']
     current_user.recent_playlist = params['playlist_id']
-    current_user.save!
 
     spotify_authenticate
     playlist_id = params['playlist_id']
@@ -51,6 +50,10 @@ class UsersController < ApplicationController
         order: index,
         tempo: track.audio_features.tempo
       }
+    end
+
+    if current_user.recent_played_id
+      bpms.reject!{|b| b[:order] == current_user.recent_played_id}
     end
 
     # 残り時間(秒)
@@ -72,6 +75,9 @@ class UsersController < ApplicationController
     selected_music = bpms.min_by do |b|
       b[:diff]
     end
+
+    current_user.recent_played_id = selected_music[:order]
+    current_user.save!
 
     player = RSpotify::Player.new(spotify_user(current_user))
     params = {
