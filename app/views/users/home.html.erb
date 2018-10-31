@@ -115,7 +115,7 @@
         <%= javascript_include_tag 'maps.js', 'data-turbolinks-track': 'reload' %>
         <%= javascript_include_tag 'dropdown_fix.js', 'data-turbolinks-track': 'reload' %>
         <%= javascript_include_tag 'timedropper.js', 'data-turbolinks-track': 'reload' %>
-        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGCQhxjnRfnXNtqTYOkhebzXSPtc5KQnY&libraries=places&callback=initMap"></script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=<%= Rails.application.credentials.google_map[:key] %>&libraries=places&callback=initMap"></script>
     <% end %>
 
     <% content_for :stylesheets do %>

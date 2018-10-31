@@ -64,7 +64,7 @@
     }
 </script>
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGCQhxjnRfnXNtqTYOkhebzXSPtc5KQnY&libraries=places&callback=initMap"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=<%= Rails.application.credentials.google_map[:key] %>&libraries=places&callback=initMap"></script>
 <script type="app/assets/javascripts" src=“timedropper.js></script>
 <script type="app/assets/stylesheets" src=“timedropper.css></script>
 
