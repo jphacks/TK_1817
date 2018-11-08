@@ -23,4 +23,5 @@ Rails.application.config.assets.precompile += %w(
   timedropper.js
   timedropper.css
   nextmusic.js
+  player.js
   )
