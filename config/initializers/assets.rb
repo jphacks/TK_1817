@@ -25,4 +25,5 @@ Rails.application.config.assets.precompile += %w(
   nextmusic.js
   player.js
   player_maps.js
+  player_v2_map.js
   )

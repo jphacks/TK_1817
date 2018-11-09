@@ -1,1 +1,8 @@
 p this is player v2!
+
+#result
+#map
+
+- content_for :javascripts do
+    script src="https://maps.googleapis.com/maps/api/js?key=#{Rails.application.credentials.google_map[:key]}"
+    = javascript_include_tag 'player_v2_map.js', 'data-turbolinks-track': 'reload'
