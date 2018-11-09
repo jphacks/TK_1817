@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   post '/play', to: 'users#play'
   get '/stop', to: 'users#stop'
   get '/player', to: 'users#player'
+  get '/player_v2', to: 'users#player_v2'
 
   # Spotify API callback
   get '/auth/spotify/callback', to: 'users#spotify'

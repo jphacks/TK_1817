@@ -28,6 +28,10 @@ class UsersController < ApplicationController
     @playlists = spotify_user(current_user).playlists
   end
 
+  def player;end
+
+  def player_v2;end
+
   def logout
     logout_user
     redirect_to root_path
