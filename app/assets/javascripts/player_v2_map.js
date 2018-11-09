@@ -2,6 +2,7 @@ $(document).on('turbolinks:load', function () {
 
     var map;    // Map used mainly
     var currentPos; // Current position (refreshed every 10 seconds)
+    var goalPos = new google.maps.LatLng(35.553449, 139.6470623);
     var routes; // Routes calculated
 
     // Notice when geolocation not supported
@@ -84,7 +85,7 @@ $(document).on('turbolinks:load', function () {
 
         var request = {
             origin: currentPos, // スタート地点
-            destination: new google.maps.LatLng(35.712408, 139.776188), // ゴール地点
+            destination: goalPos, // ゴール地点
             travelMode: google.maps.DirectionsTravelMode.WALKING, // 移動手段
         };
         directionsService.route(request, function(response,status) {
