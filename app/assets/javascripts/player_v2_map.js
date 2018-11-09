@@ -2,6 +2,7 @@ $(document).on('turbolinks:load', function () {
 
     var map;    // Map used mainly
     var currentPos; // Current position (refreshed every 10 seconds)
+    var routes; // Routes calculated
 
     // Notice when geolocation not supported
     if (!navigator.geolocation){
@@ -12,22 +13,36 @@ $(document).on('turbolinks:load', function () {
     // Initialize map
     initMap();
 
-    // Set distination
-    refreshPlace();
-
     // Refresh map each 10 seconds
     setInterval(function(){
-        
+        // Set distination
+        refreshPlace(false);
     },10000);
 
     function initMap() {
         // Google Mapsに書き出し
-        map = new google.maps.Map( document.getElementById( 'map' ) , {
-            zoom: 15    // ズーム値
-        });
+        map = new google.maps.Map(document.getElementById('map'));
+
+        refreshPlace(true);
     }
 
-    function refreshPlace() {
+    function getRemainingLength() {
+        if(!routes) return;
+        distances = routes.map(function (r){
+            return google.maps.geometry.spherical.computeDistanceBetween(currentPos, r.start_location);
+        });
+
+        distanceToNearestPoint = Math.min.apply(null, distances);
+        nearestPointIndex = distances.indexOf(distanceToNearestPoint);
+        
+        remainingLength = 0;
+        for (i = distances.length - 1; i > nearestPointIndex; i--){
+            remainingLength += routes[i].distance.value;
+        }
+        return remainingLength;
+    }
+
+    function refreshPlace(with_route_refresh) {
         var output = document.getElementById("result");
         
         function success(position) {
@@ -36,7 +51,6 @@ $(document).on('turbolinks:load', function () {
             output.innerHTML = '<p>緯度 ' + latitude + '° <br>経度 ' + longitude + '°</p>';
             // 位置情報
             currentPos = new google.maps.LatLng( latitude , longitude ) ;
-            console.log("Place refreshed");
             
             // マーカーの新規出力
             new google.maps.Marker( {
@@ -45,12 +59,17 @@ $(document).on('turbolinks:load', function () {
             });
             map.panTo(currentPos);
 
-            setDist();
+            if(with_route_refresh == true){
+                setDist();
+            }
+
+            console.log("REMAINING METER: " + getRemainingLength());
         };
         function error() {
             //エラーの場合
             output.innerHTML = "座標位置を取得できません";
         };
+
         navigator.geolocation.getCurrentPosition(success, error);//成功と失敗を判断
     };
 
@@ -76,7 +95,12 @@ $(document).on('turbolinks:load', function () {
                     suppressMarkers: true // デフォルトのマーカーを削除
                 });
 
-                console.log(response.routes[0].legs[0].steps);
+                routes = response.routes[0].legs[0].steps;
+
+                $routelist = $('#routelist');
+                $.each(routes, function(index, value){
+                    $routelist.append('<tr><td>' + value.start_location + '</td><td>' + value.maneuver + '</td><td>' + value.distance.value + '</td></tr>')
+                });
             }
         });
     }
