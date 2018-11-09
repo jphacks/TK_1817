@@ -1,4 +1,4 @@
-window.onload = function() {
+window.addEventListener('load', function() {
     location.href="spotify://";
     init();
 
@@ -118,4 +118,4 @@ window.onload = function() {
         context.closePath();
         context.fill();
     }
-};
+})
