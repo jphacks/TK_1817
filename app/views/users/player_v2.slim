@@ -1,5 +1,10 @@
 p this is player v2!
 
+canvas#player(
+    width="800"
+    height="800"
+)
+
 #result
 #map
 table#routelist
@@ -7,3 +12,4 @@ table#routelist
 - content_for :javascripts do
     script src="https://maps.googleapis.com/maps/api/js?key=#{Rails.application.credentials.google_map[:key]}"
     = javascript_include_tag 'player_v2_map.js', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'player_v2.js', 'data-turbolinks-track': 'reload'

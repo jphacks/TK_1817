@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/danielRomero/jquery-jcanvas-rails.git
+  revision: 8988e2bd7ff31573649310514a87e69cfe7a30b1
+  specs:
+    jquery-jcanvas-rails (15.02.07)
+      jquery-rails
+      rails
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -368,6 +376,7 @@ DEPENDENCIES
   dotenv-rails
   font-awesome-rails
   jbuilder
+  jquery-jcanvas-rails!
   jquery-rails
   jquery-ui-rails
   listen
