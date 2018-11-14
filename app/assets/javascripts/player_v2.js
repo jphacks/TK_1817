@@ -52,7 +52,6 @@ $(document).on('turbolinks:load', function () {
         }
 
         // Load musicfile
-        var music = null;
         var request = new XMLHttpRequest();
         request.open('GET', 'musics/Fluttering.mp3', true);
         request.responseType = 'arraybuffer';
@@ -60,12 +59,16 @@ $(document).on('turbolinks:load', function () {
         // Decode asynchronously
         request.onload = function () {
             context.decodeAudioData(request.response, function (buffer) {
-                music = buffer;
+                var source = context.createBufferSource();
+                source.buffer = buffer;
+                source.connect(context.destination);
+                source.start(0);
             });
         }
         request.send();
     }
 
     initPlayerCanvas($('#player'));
+    initPlayer();
 
 });
