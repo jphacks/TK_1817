@@ -1,5 +1,4 @@
 $(document).on('turbolinks:load', function () {
-    $player_canvas = $('#player');
 
     function beats($canvas, layer, period) {
         setInterval(function () {
@@ -26,15 +25,47 @@ $(document).on('turbolinks:load', function () {
         }, period, function () {
             $canvas.removeLayer(arcLayerName);
         });
-
     }
 
-    $player_canvas.drawImage({
-        layer: true,
-        name: 'note',
-        source: 'images/note.png',
-        x: 400, y: 400,
-        width: 400, height: 400
-    });
-    beats($player_canvas, 'note', 500);
+    function initPlayerCanvas($canvas) {
+        $canvas.drawImage({
+            layer: true,
+            name: 'note',
+            source: 'images/note.png',
+            x: 400, y: 400,
+            width: 400, height: 400
+        });
+        beats($canvas, 'note', 500);
+    }
+
+    function initPlayer() {
+        var context;
+
+        // Init context
+        try {
+            // Fix up for prefixing
+            window.AudioContext = window.AudioContext || window.webkitAudioContext;
+            context = new AudioContext();
+        }
+        catch (e) {
+            console.log('Web Audio API is not supported in this browser');
+        }
+
+        // Load musicfile
+        var music = null;
+        var request = new XMLHttpRequest();
+        request.open('GET', 'musics/Fluttering.mp3', true);
+        request.responseType = 'arraybuffer';
+
+        // Decode asynchronously
+        request.onload = function () {
+            context.decodeAudioData(request.response, function (buffer) {
+                music = buffer;
+            });
+        }
+        request.send();
+    }
+
+    initPlayerCanvas($('#player'));
+
 });
