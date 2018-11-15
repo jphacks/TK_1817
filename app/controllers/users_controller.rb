@@ -127,7 +127,7 @@ class UsersController < ApplicationController
     render json: {
       'music_src': 'musics/Fluttering.mp3',
       'music_name': 'Fluttering',
-      'tempo': 140
+      'tempo': 85.02
     }
   end
 

@@ -1,4 +1,6 @@
 $(document).on('turbolinks:load', function () {
+    var beats;
+    var tempo;
 
     function sendRequest(userId, remainDist, limitTime, recentDist, recentSteps) {
         $.ajax({
@@ -14,13 +16,14 @@ $(document).on('turbolinks:load', function () {
             }
         }).done(function (data, status, xhr) {
             // done
+            console.log(data);
         }).fail(function (xhr, status, error) {
             console.log("Request: " + status + " Error detected.");
         });
     }
 
-    function beats($canvas, layer, period) {
-        setInterval(function () {
+    function setBeats($canvas, layer, period) {
+        bearts = setInterval(function () {
             $canvas.setLayer(layer, {
                 width: 500, height: 500
             });
@@ -54,7 +57,7 @@ $(document).on('turbolinks:load', function () {
             x: 400, y: 400,
             width: 400, height: 400
         });
-        beats($canvas, 'note', 500);
+        setBeats($canvas, 'note', 500);
     }
 
     function initPlayer() {
@@ -94,7 +97,7 @@ $(document).on('turbolinks:load', function () {
         request.send();
     }
 
-    sendRequest(0, 10000, 100, 5000, 140);
+    sendRequest(1, 10000, 100, 5000, 140);
     initPlayerCanvas($('#player'));
     initPlayer();
 
