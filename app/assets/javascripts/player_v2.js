@@ -51,17 +51,24 @@ $(document).on('turbolinks:load', function () {
             console.log('Web Audio API is not supported in this browser');
         }
 
+        var source = context.createBufferSource();
+
         // Load musicfile
         var request = new XMLHttpRequest();
         request.open('GET', 'musics/Fluttering.mp3', true);
         request.responseType = 'arraybuffer';
 
+        var gain = context.createGain();
+        var panner = context.createStereoPanner();
+        // panner.pan.value = 0.8;
+        source.connect(gain);
+
         // Decode asynchronously
         request.onload = function () {
             context.decodeAudioData(request.response, function (buffer) {
-                var source = context.createBufferSource();
                 source.buffer = buffer;
-                source.connect(context.destination);
+                source.connect(panner);
+                panner.connect(context.destination);
                 source.start(0);
             });
         }
