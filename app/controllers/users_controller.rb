@@ -111,7 +111,19 @@ class UsersController < ApplicationController
   def play_v2
     @user = User.find(params[:user_id])
     @user.walked_distance = @user.walked_distance * 0.9 + params[:walked_distance]
-    @user.walked_time = @user.walked_time * 0.9 + params[:walked_time]
+    @user.walked_steps = @user.walked_steps * 0.9 + params[:walked_steps]
+
+    # 残り時間(秒)
+    limittime = Time.parse(params['time']) - Time.now
+
+    # 求められる早さ(m/s)
+    speed = params['distance'].to_i / limittime
+
+    # 歩幅(m)
+    steplength = @user.walked_distance / @user.walked_steps
+
+    # bpm
+    desired_tempo = speed / steplength * 60
 
     @user.save!
 
