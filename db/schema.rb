@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 2018_11_15_070903) do
     t.string "recent_playlist"
     t.integer "recent_played_id"
     t.float "walked_distance", default: 0.0
-    t.float "walked_time", default: 0.0
+    t.float "walked_steps", default: 0.0
   end
 
 end
