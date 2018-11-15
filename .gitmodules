@@ -1,0 +1,3 @@
+[submodule "app/assets/jsID3"]
+	path = app/assets/jsID3
+	url = https://github.com/furikake6000/jsID3
