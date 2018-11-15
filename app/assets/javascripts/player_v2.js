@@ -1,5 +1,24 @@
 $(document).on('turbolinks:load', function () {
 
+    function sendRequest(userId, remainDist, limitTime, recentDist, recentSteps) {
+        $.ajax({
+            type: 'GET',
+            url: '/play_v2',
+            dataType: 'json',
+            data: {
+                'user_id': userId,
+                'remain_dist': remainDist,
+                'limit_time': limitTime,
+                'recent_dist': recentDist,
+                'recent_steps': recentSteps
+            }
+        }).done(function (data, status, xhr) {
+            // done
+        }).fail(function (xhr, status, error) {
+            console.log("Request: " + status + " Error detected.");
+        });
+    }
+
     function beats($canvas, layer, period) {
         setInterval(function () {
             $canvas.setLayer(layer, {
@@ -75,6 +94,7 @@ $(document).on('turbolinks:load', function () {
         request.send();
     }
 
+    sendRequest(0, 10000, 100, 5000, 140);
     initPlayerCanvas($('#player'));
     initPlayer();
 

@@ -108,6 +108,20 @@ class UsersController < ApplicationController
     redirect_to player_path(bpm: selected_music[:tempo])
   end
 
+  def play_v2
+    @user = User.find(params[:user_id])
+    @user.walked_distance = @user.walked_distance * 0.9 + params[:walked_distance]
+    @user.walked_time = @user.walked_time * 0.9 + params[:walked_time]
+
+    @user.save!
+
+    render json: {
+      'music_src': 'musics/Fluttering.mp3',
+      'music_name': 'Fluttering',
+      'tempo': 140
+    }
+  end
+
   def stop
     RSpotify::Player.new(spotify_user(current_user)).pause
     redirect_to root_path
