@@ -3,10 +3,21 @@ $(document).on('turbolinks:load', function () {
     var context;
     var currentPeriod   // ms
 
-    var goalTime;
+    var goalTime = frParseDate(params['time']).getTime();
     var lastDist, lastTime;
 
-    function sendRequest(userId, limitTime) {
+    console.log(goalTime);
+
+    function frParseDate(str) {
+        var date = new Date();
+        var isPm = (str.substr(0, 2) == "pm");
+        var hour = Number(str.substr(3, 2));
+        var minute = Number(str.substr(8, 2));
+        if (isPm) { hour += 12; }
+        return new Date(date.getFullYear(), date.getMonth(), date.getDate(), hour, minute);
+    }
+
+    function sendRequest(userId) {
         var currentTime = Date.now();
         var currentDist = getRemainingLength();
 
@@ -17,7 +28,7 @@ $(document).on('turbolinks:load', function () {
             data: {
                 'user_id': userId,
                 'remain_dist': currentTime,
-                'limit_time': limitTime,
+                'limit_time': goalTime - currentTime,
                 'recent_dist': lastDist - currentDist,
                 'recent_steps': (currentTime - lastTime) / currentPeriod
             }
@@ -109,8 +120,6 @@ $(document).on('turbolinks:load', function () {
         console.log('Web Audio API is not supported in this browser');
     }
 
-    console.log(params);
-
-    sendRequest(1, 10000);
+    sendRequest(1);
 
 });
