@@ -27,4 +27,5 @@ Rails.application.config.assets.precompile += %w(
   player_v2.js
   player_maps.js
   player_v2_map.js
+  getparams.js
   )
