@@ -1,24 +1,33 @@
 $(document).on('turbolinks:load', function () {
     var $playerCanvas = $('#player');
     var context;
+    var currentPeriod   // ms
 
-    function sendRequest(userId, remainDist, limitTime, recentDist, recentSteps) {
+    var goalTime;
+    var lastDist, lastTime;
+
+    function sendRequest(userId, limitTime) {
+        var currentTime = Date.now();
+        var currentDist = getRemainingLength();
+
         $.ajax({
             type: 'GET',
             url: '/play_v2',
             dataType: 'json',
             data: {
                 'user_id': userId,
-                'remain_dist': remainDist,
+                'remain_dist': currentTime,
                 'limit_time': limitTime,
-                'recent_dist': recentDist,
-                'recent_steps': recentSteps
+                'recent_dist': lastDist - currentDist,
+                'recent_steps': (currentTime - lastTime) / currentPeriod
             }
         }).done(function (data, status, xhr) {
             // done
-            console.log(data);
             initPlayerCanvas($playerCanvas, data['tempo']);
             initPlayer(data['music_src']);
+
+            lastTime = currentTime;
+            lastDist = currentDist;
         }).fail(function (xhr, status, error) {
             console.log("Request: " + status + " Error detected.");
         });
@@ -49,6 +58,8 @@ $(document).on('turbolinks:load', function () {
         }, period, function () {
             $canvas.removeLayer(arcLayerName);
         });
+
+        currentPeriod = period;
     }
 
     function initPlayerCanvas($canvas, bpm) {
@@ -98,6 +109,6 @@ $(document).on('turbolinks:load', function () {
         console.log('Web Audio API is not supported in this browser');
     }
 
-    sendRequest(1, 10000, 100, 5000, 140);
+    sendRequest(1, 10000);
 
 });

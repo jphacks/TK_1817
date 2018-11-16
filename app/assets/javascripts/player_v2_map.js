@@ -1,3 +1,5 @@
+var getRemainingLength;
+
 $(document).on('turbolinks:load', function () {
 
     var map;    // Map used mainly
@@ -6,19 +8,19 @@ $(document).on('turbolinks:load', function () {
     var routes; // Routes calculated
 
     // Notice when geolocation not supported
-    if (!navigator.geolocation){
+    if (!navigator.geolocation) {
         console.log("Geolocation not supported.");
         return;
     }
-    
+
     // Initialize map
     initMap();
 
     // Refresh map each 10 seconds
-    setInterval(function(){
+    setInterval(function () {
         // Set distination
         refreshPlace(false);
-    },10000);
+    }, 10000);
 
     function initMap() {
         // Google Mapsに書き出し
@@ -27,17 +29,17 @@ $(document).on('turbolinks:load', function () {
         refreshPlace(true);
     }
 
-    function getRemainingLength() {
-        if(!routes) return;
-        distances = routes.map(function (r){
+    getRemainingLength = function () {
+        if (!routes) return;
+        distances = routes.map(function (r) {
             return google.maps.geometry.spherical.computeDistanceBetween(currentPos, r.start_location);
         });
 
         distanceToNearestPoint = Math.min.apply(null, distances);
         nearestPointIndex = distances.indexOf(distanceToNearestPoint);
-        
+
         remainingLength = 0;
-        for (i = distances.length - 1; i > nearestPointIndex; i--){
+        for (i = distances.length - 1; i > nearestPointIndex; i--) {
             remainingLength += routes[i].distance.value;
         }
         return remainingLength;
@@ -45,22 +47,22 @@ $(document).on('turbolinks:load', function () {
 
     function refreshPlace(with_route_refresh) {
         var output = document.getElementById("result");
-        
+
         function success(position) {
-            var latitude  = position.coords.latitude;//緯度
+            var latitude = position.coords.latitude;//緯度
             var longitude = position.coords.longitude;//経度
             output.innerHTML = '<p>緯度 ' + latitude + '° <br>経度 ' + longitude + '°</p>';
             // 位置情報
-            currentPos = new google.maps.LatLng( latitude , longitude ) ;
-            
+            currentPos = new google.maps.LatLng(latitude, longitude);
+
             // マーカーの新規出力
-            new google.maps.Marker( {
-                map: map ,
-                position: currentPos ,
+            new google.maps.Marker({
+                map: map,
+                position: currentPos,
             });
             map.panTo(currentPos);
 
-            if(with_route_refresh == true){
+            if (with_route_refresh == true) {
                 setDist();
             }
 
@@ -74,7 +76,7 @@ $(document).on('turbolinks:load', function () {
         navigator.geolocation.getCurrentPosition(success, error);//成功と失敗を判断
     };
 
-    function setDist(){
+    function setDist() {
         var directionsDisplay = new google.maps.DirectionsRenderer({
             map: map, // 描画先の地図
             draggable: true, // ドラッグ可
@@ -88,7 +90,7 @@ $(document).on('turbolinks:load', function () {
             destination: goalPos, // ゴール地点
             travelMode: google.maps.DirectionsTravelMode.WALKING, // 移動手段
         };
-        directionsService.route(request, function(response,status) {
+        directionsService.route(request, function (response, status) {
             if (status === google.maps.DirectionsStatus.OK) {
                 new google.maps.DirectionsRenderer({
                     map: map,
@@ -99,7 +101,7 @@ $(document).on('turbolinks:load', function () {
                 routes = response.routes[0].legs[0].steps;
 
                 $routelist = $('#routelist');
-                $.each(routes, function(index, value){
+                $.each(routes, function (index, value) {
                     $routelist.append('<tr><td>' + value.start_location + '</td><td>' + value.maneuver + '</td><td>' + value.distance.value + '</td></tr>')
                 });
             }
