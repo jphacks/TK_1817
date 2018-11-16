@@ -117,17 +117,25 @@ class UsersController < ApplicationController
     speed = params['remain_dist'].to_f / params[:limit_time].to_f
 
     # 歩幅(m)
-    steplength = @user.walked_distance / @user.walked_steps
+    if @user.walked_steps != 0
+      steplength = @user.walked_distance / @user.walked_steps
+    else
+      steplength = 0.7
+    end
 
     # bpm
     desired_tempo = speed / steplength * 60
 
+    selected_music = Music.all.min_by do |m|
+      (desired_tempo - m.bpm).abs
+    end
+
     @user.save!
 
     render json: {
-      'music_src': 'Fluttering.mp3',
-      'music_name': 'Fluttering',
-      'tempo': 85.02
+      'music_src': selected_music.filename,
+      'music_name': selected_music.name,
+      'tempo': selected_music.bpm
     }
   end
 
