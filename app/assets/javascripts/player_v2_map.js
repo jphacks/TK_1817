@@ -4,7 +4,7 @@ $(document).on('turbolinks:load', function () {
 
     var map;    // Map used mainly
     var currentPos; // Current position (refreshed every 10 seconds)
-    var goalPos = new google.maps.LatLng(35.553449, 139.6470623);
+    var goalPos = new google.maps.LatLng(parseFloat(params['lat']), parseFloat(params['lng']));
     var routes; // Routes calculated
 
     // Notice when geolocation not supported

@@ -99,7 +99,7 @@ function initMap() {
 
     var directionsService = new google.maps.DirectionsService();
     var directionsDisplay = new google.maps.DirectionsRenderer();
-    
+
     var map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: 35.5709605, lng: 139.63446 },
         zoom: 20,
@@ -123,40 +123,40 @@ function initMap() {
 
             console.log('lat: ', position.coords.latitude);
             console.log('lng: ', position.coords.longitude);
-            
+
             document.getElementById('start_pos').value = [
                 position.coords.latitude,
                 position.coords.longitude,
             ]
-            
+
             infoWindow.setPosition(pos);
             infoWindow.setContent('Location found.');
             infoWindow.open(map);
             map.setCenter(pos);
-    }, function () {
-        handleLocationError(true, infoWindow, map.getCenter());
-    });
+        }, function () {
+            handleLocationError(true, infoWindow, map.getCenter());
+        });
     } else {
         handleLocationError(false, infoWindow, map.getCenter());
-}
+    }
 
-new AutocompleteDirectionsHandler(map, pos);
-    
-var button = document.getElementById("button");
+    new AutocompleteDirectionsHandler(map, pos);
+
+    var button = document.getElementById("button");
     button.addEventListener('click', function () {
         calculateAndDisplayRoute(directionsService, directionsDisplay, 'search');
-});
+    });
 
-var styleControl = document.getElementById('style-selector-control');
-map.controls[google.maps.ControlPosition.TOP_LEFT].push(styleControl);
+    var styleControl = document.getElementById('style-selector-control');
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(styleControl);
 
-document.getElementById('hide-poi').addEventListener('click', function () {
-    map.setOptions({ styles: styles['hide'] });
-});
+    document.getElementById('hide-poi').addEventListener('click', function () {
+        map.setOptions({ styles: styles['hide'] });
+    });
 
-document.getElementById('show-poi').addEventListener('click', function () {
-    map.setOptions({ styles: styles['default'] });
-});
+    document.getElementById('show-poi').addEventListener('click', function () {
+        map.setOptions({ styles: styles['default'] });
+    });
 }
 
 function AutocompleteDirectionsHandler(map) {
@@ -164,7 +164,7 @@ function AutocompleteDirectionsHandler(map) {
     this.originPlaceId = null;
     this.destinationPlaceId = null;
     this.travelMode = 'WALKING';
-    
+
     var originInput = document.getElementById('start');
     var waypointInput = document.getElementById('waypoint');
     var destinationInput = document.getElementById('end');
@@ -292,8 +292,8 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 }
 
 function getClickLatLng(lat_lng, map, directionsService, directionsDisplay) {
-    document.getElementById('lat').textContent = lat_lng.lat();
-    document.getElementById('lng').textContent = lat_lng.lng();
+    document.getElementById('lat').value = lat_lng.lat();
+    document.getElementById('lng').value = lat_lng.lng();
     document.getElementById('end_pos').value = [
         lat_lng.lat(),
         lat_lng.lng()
@@ -317,6 +317,6 @@ function getClickLatLng(lat_lng, map, directionsService, directionsDisplay) {
     console.log('lng:', lat_lng.lng())
 
     map.panTo(lat_lng);
-    
-    calculateAndDisplayRoute(directionsService, directionsDisplay, "click") 
+
+    calculateAndDisplayRoute(directionsService, directionsDisplay, "click")
 }
