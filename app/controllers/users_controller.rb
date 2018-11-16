@@ -125,7 +125,7 @@ class UsersController < ApplicationController
     @user.save!
 
     render json: {
-      'music_src': 'musics/Fluttering.mp3',
+      'music_src': 'Fluttering.mp3',
       'music_name': 'Fluttering',
       'tempo': 85.02
     }

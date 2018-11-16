@@ -1,6 +1,6 @@
 $(document).on('turbolinks:load', function () {
-    var beats;
-    var tempo;
+    var $playerCanvas = $('#player');
+    var context;
 
     function sendRequest(userId, remainDist, limitTime, recentDist, recentSteps) {
         $.ajax({
@@ -17,6 +17,8 @@ $(document).on('turbolinks:load', function () {
         }).done(function (data, status, xhr) {
             // done
             console.log(data);
+            initPlayerCanvas($playerCanvas, data['tempo']);
+            initPlayer(data['music_src']);
         }).fail(function (xhr, status, error) {
             console.log("Request: " + status + " Error detected.");
         });
@@ -49,7 +51,7 @@ $(document).on('turbolinks:load', function () {
         });
     }
 
-    function initPlayerCanvas($canvas) {
+    function initPlayerCanvas($canvas, bpm) {
         $canvas.drawImage({
             layer: true,
             name: 'note',
@@ -57,27 +59,16 @@ $(document).on('turbolinks:load', function () {
             x: 400, y: 400,
             width: 400, height: 400
         });
-        setBeats($canvas, 'note', 500);
+        setBeats($canvas, 'note', 60000.0 / bpm);
     }
 
-    function initPlayer() {
-        var context;
-
-        // Init context
-        try {
-            // Fix up for prefixing
-            window.AudioContext = window.AudioContext || window.webkitAudioContext;
-            context = new AudioContext();
-        }
-        catch (e) {
-            console.log('Web Audio API is not supported in this browser');
-        }
+    function initPlayer(musicSrc) {
 
         var source = context.createBufferSource();
 
         // Load musicfile
         var request = new XMLHttpRequest();
-        request.open('GET', 'musics/Fluttering.mp3', true);
+        request.open('GET', 'musics/' + musicSrc, true);
         request.responseType = 'arraybuffer';
 
         var gain = context.createGain();
@@ -97,8 +88,16 @@ $(document).on('turbolinks:load', function () {
         request.send();
     }
 
+    // Init context
+    try {
+        // Fix up for prefixing
+        window.AudioContext = window.AudioContext || window.webkitAudioContext;
+        context = new AudioContext();
+    }
+    catch (e) {
+        console.log('Web Audio API is not supported in this browser');
+    }
+
     sendRequest(1, 10000, 100, 5000, 140);
-    initPlayerCanvas($('#player'));
-    initPlayer();
 
 });
