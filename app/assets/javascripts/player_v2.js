@@ -3,6 +3,7 @@ $(document).on('turbolinks:load', function () {
     var context;
     var currentPeriod   // ms
 
+    var params = [];
     var goalTime;
     var lastDist, lastTime;
 
@@ -108,6 +109,21 @@ $(document).on('turbolinks:load', function () {
     catch (e) {
         console.log('Web Audio API is not supported in this browser');
     }
+
+    // Getting params
+    // (ref: https://www.tam-tam.co.jp/tipsnote/javascript/post9911.html )
+    var urlParam = location.search.substring(1);
+
+    if (urlParam) {
+        var param = urlParam.split('&');
+
+        for (i = 0; i < param.length; i++) {
+            var paramItem = param[i].split('=');
+            params[paramItem[0]] = paramItem[1];
+        }
+    }
+
+    console.log(params);
 
     sendRequest(1, 10000);
 
