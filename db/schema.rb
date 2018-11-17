@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_16_081337) do
+ActiveRecord::Schema.define(version: 2018_11_17_111758) do
 
   create_table "musics", force: :cascade do |t|
     t.string "name"
@@ -30,11 +30,9 @@ ActiveRecord::Schema.define(version: 2018_11_16_081337) do
     t.string "time"
     t.string "recent_playlist"
     t.integer "recent_played_id"
-    t.float "step_length"
-    t.float "recent_distance"
-    t.datetime "recent_time"
     t.float "walked_distance", default: 0.0
     t.float "walked_steps", default: 0.0
+    t.string "twitter_uid"
   end
 
 end
