@@ -61,4 +61,9 @@ Rails.application.configure do
 
   # allow access from global
   config.web_console.whitelisted_ips = '0.0.0.0/0'
+  
+  # Force ssl
+  Rails.application.configure do
+    config.force_ssl = true
+  end
 end
