@@ -6,6 +6,8 @@ $(document).on('turbolinks:load', function () {
     var goalTime = frParseDate(params['time']).getTime();
     var lastDist, lastTime;
 
+    var panner;
+
     console.log(goalTime);
 
     function frParseDate(str) {
@@ -94,7 +96,7 @@ $(document).on('turbolinks:load', function () {
         request.responseType = 'arraybuffer';
 
         var gain = context.createGain();
-        var panner = context.createStereoPanner();
+        panner = context.createStereoPanner();
         // panner.pan.value = 0.8;
         source.connect(gain);
 
@@ -108,6 +110,11 @@ $(document).on('turbolinks:load', function () {
             });
         }
         request.send();
+    }
+
+    function panning(value){
+        panner.pan.setTargetAtTime(value, context.currentTime, 0.2);
+        panner.pan.setTargetAtTime(0.5, context.currentTime + 10.0, 0.5);
     }
 
     // Init context
