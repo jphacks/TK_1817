@@ -114,11 +114,13 @@ class UsersController < ApplicationController
     @user.walked_steps = @user.walked_steps * 0.9 + params[:recent_steps].to_f
 
     # 求められる早さ(m/s)
-    speed = params['remain_dist'].to_f / params[:limit_time].to_f
+    speed = params['remain_dist'].to_f / (params[:limit_time].to_f / 1000)
 
     # 歩幅(m)
     if @user.walked_steps != 0
       steplength = @user.walked_distance / @user.walked_steps
+      # はずれ値切り
+      steplength = [[steplength, 0.6].max, 0.9].min
     else
       steplength = 0.7
     end

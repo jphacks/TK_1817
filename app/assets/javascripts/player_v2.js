@@ -8,8 +8,6 @@ $(document).on('turbolinks:load', function () {
 
     var panner;
 
-    console.log(goalTime);
-
     function frParseDate(str) {
         var date = new Date();
         var isPm = (str.substr(0, 2) == "pm");
@@ -29,7 +27,7 @@ $(document).on('turbolinks:load', function () {
             dataType: 'json',
             data: {
                 'user_id': userId,
-                'remain_dist': currentTime,
+                'remain_dist': currentDist,
                 'limit_time': goalTime - currentTime,
                 'recent_dist': lastDist - currentDist,
                 'recent_steps': (currentTime - lastTime) / currentPeriod
@@ -112,7 +110,7 @@ $(document).on('turbolinks:load', function () {
         request.send();
     }
 
-    function panning(value){
+    function panning(value) {
         panner.pan.setTargetAtTime(value, context.currentTime, 0.2);
         panner.pan.setTargetAtTime(0.5, context.currentTime + 10.0, 0.5);
     }
@@ -127,6 +125,8 @@ $(document).on('turbolinks:load', function () {
         console.log('Web Audio API is not supported in this browser');
     }
 
-    sendRequest(1);
+    setTimeout(function () {
+        sendRequest(1);
+    }, 500);
 
 });

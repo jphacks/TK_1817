@@ -7,6 +7,8 @@ $(document).on('turbolinks:load', function () {
     var goalPos = new google.maps.LatLng(parseFloat(params['lat']), parseFloat(params['lng']));
     var routes; // Routes calculated
 
+    var currentNearestCheckpoint;
+
     // Notice when geolocation not supported
     if (!navigator.geolocation) {
         console.log("Geolocation not supported.");
@@ -98,13 +100,26 @@ $(document).on('turbolinks:load', function () {
                     suppressMarkers: true // デフォルトのマーカーを削除
                 });
 
+                // ルートを更新
                 routes = response.routes[0].legs[0].steps;
-
-                $routelist = $('#routelist');
-                $.each(routes, function (index, value) {
-                    $routelist.append('<tr><td>' + value.start_location + '</td><td>' + value.maneuver + '</td><td>' + value.distance.value + '</td></tr>')
-                });
             }
         });
     }
+
+    setInterval(function () {
+        if (!routes) return;
+        distances = routes.map(function (r) {
+            return google.maps.geometry.spherical.computeDistanceBetween(currentPos, r.start_location);
+        });
+
+        distanceToNearestPoint = Math.min.apply(null, distances);
+        nearestPointIndex = distances.indexOf(distanceToNearestPoint);
+        nearestCheckPoint = routes[nearestPointIndex];
+
+        if (distanceToNearestPoint < 5.0 && nearestCheckPoint != currentNearestCheckpoint) {
+            // If the distance between here and nearest point < 5m
+            currentNearestCheckpoint = nearestCheckPoint;
+            console.log(nearestCheckPoint);
+        }
+    }, 1000);
 });
