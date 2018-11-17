@@ -1,13 +1,16 @@
-p this is player v2!
-
 canvas#player(
     width="800"
     height="800"
 )
 
-#result
-#map
-table#routelist
+#result.d-none
+#map class="#{(params[:debug] ? '' : 'd-none')}"
+
+.row
+    .col-3
+    .col-6
+        button#next-button.btn.btn-lg.btn-block.btn-primary type="button" Next
+    .col-3
 
 - content_for :javascripts do
     script src="https://maps.googleapis.com/maps/api/js?key=#{Rails.application.credentials.google_map[:key]}"

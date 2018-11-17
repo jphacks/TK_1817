@@ -3,7 +3,9 @@ var panning;
 $(document).on('turbolinks:load', function () {
     var $playerCanvas = $('#player');
     var context;
+    var source;
     var currentPeriod   // ms
+    var beats;
 
     var goalTime = frParseDate(params['time']).getTime();
     var lastDist, lastTime;
@@ -47,7 +49,9 @@ $(document).on('turbolinks:load', function () {
     }
 
     function setBeats($canvas, layer, period) {
-        bearts = setInterval(function () {
+        if (beats != null) clearInterval(beats);
+
+        beats = setInterval(function () {
             $canvas.setLayer(layer, {
                 width: 500, height: 500
             });
@@ -87,8 +91,9 @@ $(document).on('turbolinks:load', function () {
     }
 
     function initPlayer(musicSrc) {
+        if (source != null) source.stop();
 
-        var source = context.createBufferSource();
+        source = context.createBufferSource();
 
         // Load musicfile
         var request = new XMLHttpRequest();
@@ -109,6 +114,12 @@ $(document).on('turbolinks:load', function () {
                 source.start(0);
             });
         }
+
+        // When music ended, next music will play
+        source.onended = function () {
+            sendRequest(1);
+        }
+
         request.send();
     }
 
@@ -130,5 +141,9 @@ $(document).on('turbolinks:load', function () {
     setTimeout(function () {
         sendRequest(1);
     }, 500);
+
+    $('#next-button').on('click', function () {
+        sendRequest(1);
+    });
 
 });
