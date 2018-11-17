@@ -19,13 +19,25 @@ class UsersController < ApplicationController
     redirect_to root_path
   end
 
-  def home
-    unless logged_in?
-      render 'static_pages/home'
-      return
-    end
+  def twitter_login
+    # auth情報を取り出しログイン
+    auth = request.env['omniauth.auth']
 
-    @playlists = spotify_user(current_user).playlists
+    # Find logged in user
+    @user = User.find_by(twitter_uid: auth.uid)
+    # If no user found, create new user
+    @user ||= User.create(
+      name: auth[:info][:nickname],
+      twitter_uid: auth.uid
+    )
+
+    login_as @user
+
+    redirect_to root_path
+  end
+
+  def home
+    render 'static_pages/home' unless logged_in?
   end
 
   def player;end
