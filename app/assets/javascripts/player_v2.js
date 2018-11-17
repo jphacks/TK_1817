@@ -143,7 +143,7 @@ $(document).on('turbolinks:load', function () {
     }, 500);
 
     $('#nextButton').on('click', function () {
-        sendRequest(1);
+        source.stop();
     });
 
     $('#leftPan').on('click', function () {

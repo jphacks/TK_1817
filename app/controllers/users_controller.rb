@@ -121,7 +121,7 @@ class UsersController < ApplicationController
   end
 
   def play_v2
-    @user = User.find(params[:user_id])
+    @user = current_user
     @user.walked_distance = @user.walked_distance * 0.9 + params[:recent_dist].to_f
     @user.walked_steps = @user.walked_steps * 0.9 + params[:recent_steps].to_f
 
@@ -140,9 +140,12 @@ class UsersController < ApplicationController
     # bpm
     desired_tempo = speed / steplength * 60
 
-    selected_music = Music.all.min_by do |m|
+    musics = Music.all.reject { |m| m.id == @user.recent_played_id }
+    selected_music = musics.min_by do |m|
       (desired_tempo - m.bpm).abs
     end
+
+    @user.recent_played_id = selected_music.id
 
     @user.save!
 
