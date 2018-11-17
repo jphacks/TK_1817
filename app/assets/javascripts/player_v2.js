@@ -1,3 +1,5 @@
+var panning;
+
 $(document).on('turbolinks:load', function () {
     var $playerCanvas = $('#player');
     var context;
@@ -110,7 +112,7 @@ $(document).on('turbolinks:load', function () {
         request.send();
     }
 
-    function panning(value) {
+    panning = function (value) {
         panner.pan.setTargetAtTime(value, context.currentTime, 0.2);
         panner.pan.setTargetAtTime(0.5, context.currentTime + 10.0, 0.5);
     }

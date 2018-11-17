@@ -120,6 +120,11 @@ $(document).on('turbolinks:load', function () {
             // If the distance between here and nearest point < 5m
             currentNearestCheckpoint = nearestCheckPoint;
             console.log(nearestCheckPoint);
+            if (nearestCheckPoint.maneuver.indexOf('left') != -1) {
+                panning(0.0);
+            } else if (nearestCheckPoint.maneuver.indexOf('right') != -1) {
+                panning(1.0);
+            }
         }
     }, 1000);
 });
