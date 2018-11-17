@@ -1,4 +1,4 @@
-= form_tag '/play' do
+= form_tag '/player_v2', method: 'get' do
 
     .tray
         h2.homemenu 1. ルートを決めてください
@@ -125,24 +125,9 @@
         #time.result
     
     .tray
-        h2.homemenu 3.プレイリストを決めてください
-        input#playlist_id_form(
-            type="hidden"
-            name="playlist_id"
-        )
-        .dropdown
-            button#playlist_toggle.btn.btn-block.btn-primary.dropdown-toggle(
-                data-toggle="dropdown"
-                type="button"
-                aria-haspopup="true"
-                aria-expanded="false"
-            ) 選択してください...
-            ul.dropdown-menu
-                - @playlists.each do |pl|
-                    li
-                        button.dropdown-item(
-                            value="#{pl.id}"
-                        ) #{pl.name}
+        .form-check
+            = check_box_tag 'debug', true, false, {id: 'debugForm', class: 'form-check-input'}
+            label.form-check-label for="debugForm" Debug
     
     .btn_container
         input.btn.btn-lg.btn-block.btn-primary.btn-lg.mb-3(

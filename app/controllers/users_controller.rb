@@ -19,14 +19,30 @@ class UsersController < ApplicationController
     redirect_to root_path
   end
 
-  def home
-    unless logged_in?
-      render 'static_pages/home'
-      return
-    end
+  def twitter_login
+    # auth情報を取り出しログイン
+    auth = request.env['omniauth.auth']
 
-    @playlists = spotify_user(current_user).playlists
+    # Find logged in user
+    @user = User.find_by(twitter_uid: auth.uid)
+    # If no user found, create new user
+    @user ||= User.create(
+      name: auth[:info][:nickname],
+      twitter_uid: auth.uid
+    )
+
+    login_as @user
+
+    redirect_to root_path
   end
+
+  def home
+    render 'static_pages/home' unless logged_in?
+  end
+
+  def player;end
+
+  def player_v2;end
 
   def logout
     logout_user
@@ -102,6 +118,42 @@ class UsersController < ApplicationController
     )
 
     redirect_to player_path(bpm: selected_music[:tempo])
+  end
+
+  def play_v2
+    @user = current_user
+    @user.walked_distance = @user.walked_distance * 0.9 + params[:recent_dist].to_f
+    @user.walked_steps = @user.walked_steps * 0.9 + params[:recent_steps].to_f
+
+    # 求められる早さ(m/s)
+    speed = params['remain_dist'].to_f / (params[:limit_time].to_f / 1000)
+
+    # 歩幅(m)
+    if @user.walked_steps != 0
+      steplength = @user.walked_distance / @user.walked_steps
+      # はずれ値切り
+      steplength = [[steplength, 0.6].max, 0.9].min
+    else
+      steplength = 0.7
+    end
+
+    # bpm
+    desired_tempo = speed / steplength * 60
+
+    musics = Music.all.reject { |m| m.id == @user.recent_played_id }
+    selected_music = musics.min_by do |m|
+      (desired_tempo - m.bpm).abs
+    end
+
+    @user.recent_played_id = selected_music.id
+
+    @user.save!
+
+    render json: {
+      'music_src': selected_music.filename,
+      'music_name': selected_music.name,
+      'tempo': selected_music.bpm
+    }
   end
 
   def stop

@@ -1,11 +1,15 @@
 #contents
-  div.jumbotron.login_BG
+  div.jumbotron.text-center.login_BG
+    h2.text-primary.text-bold 音楽が、あなたを連れて行く。
 
-    h2.text-primary Music Application!
-    
-    h2.text-primary You can sign in with Spotify account.
+  h2.text-primary.text-bold tekut! へようこそ！
+  
+  p 「時間が気になって何度もスマホを見てしまい、結局電車に遅れる」
+  p 「見知らぬ土地で地図を開きっぱなしになり、前方不注意で人とぶつかる」
+  p なんて経験はありませんか？
+  p tekut! はそんな経験から創りだされた、音楽を利用したナビアプリです。
 
-    div.login_btn
-      = link_to 'Sign in with Spotify', '/auth/spotify', class: 'btn btn-primary btn-lg' 'text-center'
+  .mt-3.mb-3.text-center
+    = link_to 'Twitterでログイン', '/auth/twitter', class: 'btn btn-secondary btn-lg' 'text-center'
 
 = stylesheet_link_tag 'login', media: 'all', 'data-turbolinks-track': 'reload'

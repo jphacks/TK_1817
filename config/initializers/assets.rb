@@ -24,5 +24,8 @@ Rails.application.config.assets.precompile += %w(
   timedropper.css
   nextmusic.js
   player.js
+  player_v2.js
   player_maps.js
+  player_v2_map.js
+  getparams.js
   )

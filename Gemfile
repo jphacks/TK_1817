@@ -22,6 +22,7 @@ gem 'uglifier'
 # jQuery and bootstrap
 gem 'bootstrap'
 gem 'bootstrap-will_paginate'
+gem 'jquery-jcanvas-rails', git: "https://github.com/danielRomero/jquery-jcanvas-rails.git"
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'will_paginate'
