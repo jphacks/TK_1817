@@ -124,6 +124,11 @@
         
         #time.result
     
+    .tray
+        .form-check
+            = check_box_tag 'debug', true, false, {id: 'debugForm', class: 'form-check-input'}
+            label.form-check-label for="debugForm" Debug
+    
     .btn_container
         input.btn.btn-lg.btn-block.btn-primary.btn-lg.mb-3(
             type="submit"

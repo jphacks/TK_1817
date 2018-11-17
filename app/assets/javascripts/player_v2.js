@@ -125,7 +125,7 @@ $(document).on('turbolinks:load', function () {
 
     panning = function (value) {
         panner.pan.setTargetAtTime(value, context.currentTime, 0.2);
-        panner.pan.setTargetAtTime(0.5, context.currentTime + 10.0, 0.5);
+        panner.pan.setTargetAtTime(0.0, context.currentTime + 5.0, 0.5);
     }
 
     // Init context
@@ -142,8 +142,16 @@ $(document).on('turbolinks:load', function () {
         sendRequest(1);
     }, 500);
 
-    $('#next-button').on('click', function () {
+    $('#nextButton').on('click', function () {
         sendRequest(1);
+    });
+
+    $('#leftPan').on('click', function () {
+        panning(-1.0);
+    });
+
+    $('#rightPan').on('click', function () {
+        panning(1.0);
     });
 
 });

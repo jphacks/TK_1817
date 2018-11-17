@@ -4,13 +4,18 @@ canvas#player(
 )
 
 #result.d-none
-#map class="#{(params[:debug] ? '' : 'd-none')}"
 
 .row
     .col-3
+        - if params[:debug]
+            button#leftPan.btn.btn-lg.btn-block.btn-primary type="button" LeftPan
     .col-6
-        button#next-button.btn.btn-lg.btn-block.btn-primary type="button" Next
+        button#nextButton.btn.btn-lg.btn-block.btn-primary type="button" Next
     .col-3
+        - if params[:debug]
+            button#rightPan.btn.btn-lg.btn-block.btn-primary type="button" RightPan
+
+#map class="#{(params[:debug] ? 'mt-3' : 'd-none')}"
 
 - content_for :javascripts do
     script src="https://maps.googleapis.com/maps/api/js?key=#{Rails.application.credentials.google_map[:key]}"
